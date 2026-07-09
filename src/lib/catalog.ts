@@ -40,7 +40,7 @@ function fromPage(page: number, cat: string, rows: [string, string][]): Product[
       id: `${slugify(name)}-${page}${r}${c}`,
       name,
       fit,
-      img: asset(`/catalog/pg${page}_${r}${c}.jpg`),
+      img: asset(`/catalog/pg${page}_${r}${c}.png`),
       category: cat,
     };
   });
@@ -325,12 +325,12 @@ const ringframe = [
 
 /* ---------------- Top Roller (curated clean crops) ---------------- */
 const toproller: Product[] = [
-  ["Top Roller", "RSB 851", "pg48_20.jpg"],
-  ["Top Roller", "RSB D30", "pg48_30.jpg"],
-  ["Top Roller", "RSB D50", "pg48_23.jpg"],
-  ["Unilap Top Roller", "RSB D30 · D35", "pg48_31.jpg"],
-  ["Comber Drafting Top Roller", "RSB D30 · D35", "pg48_32.jpg"],
-  ["Detaching Top Roller", "RSB D30 · D35", "pg48_33.jpg"],
+  ["Top Roller", "RSB 851", "pg48_20.png"],
+  ["Top Roller", "RSB D30", "pg48_30.png"],
+  ["Top Roller", "RSB D50", "pg48_23.png"],
+  ["Unilap Top Roller", "RSB D30 · D35", "pg48_31.png"],
+  ["Comber Drafting Top Roller", "RSB D30 · D35", "pg48_32.png"],
+  ["Detaching Top Roller", "RSB D30 · D35", "pg48_33.png"],
 ].map(([name, fit, file], i) => ({
   id: `${slugify(name)}-tr${i}`,
   name,
