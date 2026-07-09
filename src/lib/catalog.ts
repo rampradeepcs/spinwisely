@@ -4,6 +4,8 @@
  * official company profile. Images live in /public/catalog (cropped from the profile).
  */
 
+import { asset } from "./asset";
+
 export type Product = {
   id: string;
   name: string;
@@ -38,7 +40,7 @@ function fromPage(page: number, cat: string, rows: [string, string][]): Product[
       id: `${slugify(name)}-${page}${r}${c}`,
       name,
       fit,
-      img: `/catalog/pg${page}_${r}${c}.jpg`,
+      img: asset(`/catalog/pg${page}_${r}${c}.jpg`),
       category: cat,
     };
   });
@@ -333,7 +335,7 @@ const toproller: Product[] = [
   id: `${slugify(name)}-tr${i}`,
   name,
   fit,
-  img: `/catalog/${file}`,
+  img: asset(`/catalog/${file}`),
   category: "toproller",
 }));
 

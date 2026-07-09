@@ -3,6 +3,8 @@
  * Sourced from the official company profile (ISO 9001:2015 certified).
  */
 
+import { asset } from "./asset";
+
 export const company = {
   name: "Nachi Tekneka",
   brandLine: "A Solution Provider for the Spinning Industry",
@@ -57,7 +59,7 @@ export const spinlyfex = [
     summary:
       "Drop-in servo modernization for classic Rieter draw frames — restoring precision without a full rebuild.",
     accent: "#ed3237",
-    img: "/spinlyfex/servo.jpg",
+    img: asset("/spinlyfex/servo.jpg"),
   },
   {
     id: "servo-pro",
@@ -66,7 +68,7 @@ export const spinlyfex = [
     summary:
       "Next-generation servo package for the D-series, delivering higher torque and tighter control loops.",
     accent: "#5b8def",
-    img: "/spinlyfex/servo-pro.jpg",
+    img: asset("/spinlyfex/servo-pro.jpg"),
   },
   {
     id: "maxx",
@@ -76,7 +78,7 @@ export const spinlyfex = [
       "Eliminates the differential gearbox altogether. G90 controller, M90 servomotor and HMI E-Draft in one plug-and-play system.",
     accent: "#ed3237",
     featured: true,
-    img: "/spinlyfex/maxx.jpg",
+    img: asset("/spinlyfex/maxx.jpg"),
   },
   {
     id: "inverter",
@@ -85,7 +87,7 @@ export const spinlyfex = [
     summary:
       "Nachi PROTOcon converts legacy KEB, Commander & Vectron drives to robust Yaskawa AC platforms — originality preserved.",
     accent: "#f5a623",
-    img: "/spinlyfex/inverter.jpg",
+    img: asset("/spinlyfex/inverter.jpg"),
   },
   {
     id: "leveler",
@@ -94,7 +96,7 @@ export const spinlyfex = [
     summary:
       "Closed-loop autoleveling for even sliver. Hank variation held within ±0.04 and 5 m CV under 2.5%.",
     accent: "#2ec4a6",
-    img: "/spinlyfex/leveler.jpg",
+    img: asset("/spinlyfex/leveler.jpg"),
   },
 ];
 

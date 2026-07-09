@@ -31,7 +31,13 @@
       "Bash(GITHUB_PAGES=true npm run build)",
       "Bash(awk '{print $5, $NF}')",
       "Bash(git add *)",
-      "Bash(git -c user.name=rampradeepcs -c user.email=rampradeepux@gmail.com commit -q -m ' *)"
+      "Bash(git -c user.name=rampradeepcs -c user.email=rampradeepux@gmail.com commit -q -m ' *)",
+      "Bash(gh repo *)",
+      "Bash(git remote *)",
+      "Bash(git push *)",
+      "Bash(gh api *)",
+      "Bash(gh run *)",
+      "Bash(echo \"WATCH_EXIT:$?\")"
     ]
   }
 }
