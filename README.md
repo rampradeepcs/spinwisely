@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Nachi Tekneka — Website
 
-## Getting Started
+A premium, cinematic marketing site for **Nachi Tekneka**, a solution provider for the
+spinning industry (OEM-level spare parts, SpinLyfeX™ retrofits and onsite technical
+services). Design language inspired by high-end product sites, adapted to Nachi Tekneka's
+red / white / dark-gray brand.
 
-First, run the development server:
+## Highlights
+
+- **Scroll-driven 3D hero** — a procedural servo + drive controller (SpinLyfeX MAXX) built
+  with Three.js / react-three-fiber that rotates, zooms and reveals animated feature
+  callouts as you scroll.
+- **Cinematic scrolling** — Lenis momentum scroll, IntersectionObserver reveal animations,
+  count-up stats, and micro-interactions throughout.
+- **Full content architecture** — flagship retrofit showcase, OEM quality pillars, parts
+  catalog, industry solutions, technical services, company overview, testimonials, global
+  presence map, downloads and a working inquiry form.
+- **Responsive, accessible & SEO-ready** — mobile-first layouts, reduced-motion support,
+  skip links, semantic structure and JSON-LD organization schema.
+
+## Stack
+
+Next.js 16 (App Router) · React 19 · Tailwind CSS v4 · Three.js / @react-three/fiber +
+drei · Lenis.
+
+## Develop
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev     # start dev server → http://localhost:3000
+npm run build   # production build
+npm start       # serve the production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `src/app/` — layout (fonts, SEO metadata, JSON-LD), global design system, page composition.
+- `src/components/` — section components (Hero, SpinLyfeX, Catalog, Solutions, …) and shared
+  primitives (Section, Reveal, Icons, Logo, SmoothScroll).
+- `src/components/hero/` — the 3D scene and scroll-driven hero.
+- `src/lib/data.ts` — all site content, distilled from the official company profile.
