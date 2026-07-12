@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import { heroCallouts, company } from "@/lib/data";
 import { Icons } from "@/components/Icons";
+import { Loader } from "@/components/Loader";
 
 const Scene = dynamic(() => import("./Scene"), {
   ssr: false,
@@ -13,7 +14,7 @@ const Scene = dynamic(() => import("./Scene"), {
 function SceneFallback() {
   return (
     <div className="absolute inset-0 grid place-items-center">
-      <div className="h-24 w-24 rounded-full border border-line border-t-brand animate-spin-slow" />
+      <Loader size={96} label="Loading 3D model" />
     </div>
   );
 }

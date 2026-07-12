@@ -310,3 +310,67 @@ html.lenis body {
 
 /* Theme-toggle icon crossfade */
 .theme-ico { transition: opacity 0.3s var(--ease-out-expo), transform 0.4s var(--ease-out-expo); }
+
+/* ============================================================
+   NT logo loader
+   ============================================================ */
+@keyframes nt-draw {
+  0% { stroke-dashoffset: 1; }
+  45% { stroke-dashoffset: 0; }
+  55% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -1; }
+}
+@keyframes nt-ghost {
+  0%, 100% { opacity: 0.1; }
+  50% { opacity: 0.24; }
+}
+@keyframes nt-fill {
+  0%, 30% { opacity: 0; }
+  55%, 80% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes nt-breathe {
+  0%, 100% { transform: scale(0.94); }
+  50% { transform: scale(1.04); }
+}
+@keyframes loader-ring {
+  to { transform: rotate(360deg); }
+}
+@keyframes splash-out {
+  0%, 55% { opacity: 1; visibility: visible; }
+  100% { opacity: 0; visibility: hidden; }
+}
+
+.nt-loader { transform-origin: center; animation: nt-breathe 2s var(--ease-in-out-quart) infinite; }
+.nt-loader-ghost { animation: nt-ghost 2s ease-in-out infinite; }
+.nt-loader-draw {
+  fill: none;
+  stroke: var(--color-brand);
+  stroke-width: 1.1;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: nt-draw 2s var(--ease-in-out-quart) infinite;
+}
+.nt-loader-fill { animation: nt-fill 2s var(--ease-in-out-quart) infinite; }
+.nt-loader-ring {
+  animation: loader-ring 1.15s linear infinite;
+  transform-origin: center;
+}
+
+/* Splash overlay — CSS auto-hides even if JS is slow/absent; JS then unmounts. */
+.splash {
+  animation: splash-out 1.6s var(--ease-out-expo) 0.8s forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nt-loader,
+  .nt-loader-ghost,
+  .nt-loader-draw,
+  .nt-loader-fill,
+  .nt-loader-ring { animation: none; }
+  .nt-loader-draw { stroke-dashoffset: 0; }
+  .nt-loader-fill { opacity: 1; }
+  .splash { animation: splash-out 0.4s ease 0.6s forwards; }
+}

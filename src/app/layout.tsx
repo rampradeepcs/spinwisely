@@ -5,6 +5,7 @@ import { SmoothScroll } from "@/components/SmoothScroll";
 import { themeScript } from "@/components/ThemeToggle";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { Splash } from "@/components/Splash";
 
 const display = Space_Grotesk({
   variable: "--font-display",
@@ -98,6 +99,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="min-h-full">
+        <Splash />
         <SmoothScroll />
         <a
           href="#main-content"
