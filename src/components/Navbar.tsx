@@ -44,12 +44,8 @@ export function Navbar() {
   const isActive = (href: string) =>
     href === "/products" ? pathname.startsWith("/products") : pathname === href;
 
-  // Transparent navbar over the home page's dark hero → use light treatment.
-  const onDark = pathname === "/" && !scrolled;
-  const linkBase = onDark
-    ? "text-white/80 hover:bg-white/10 hover:text-white"
-    : "text-muted hover:bg-surface2 hover:text-fg";
-  const activeCls = onDark ? "text-white" : "text-brand";
+  const linkBase = "text-muted hover:bg-surface2 hover:text-fg";
+  const activeCls = "text-brand";
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
@@ -60,11 +56,7 @@ export function Navbar() {
           }`}
           style={scrolled ? { paddingInline: "1.25rem" } : undefined}
         >
-          <Link
-            href="/"
-            className={onDark ? "text-white" : "text-fg"}
-            aria-label="Nachi Tekneka home"
-          >
+          <Link href="/" className="text-fg" aria-label="Nachi Tekneka home">
             <Logo />
           </Link>
 
@@ -137,7 +129,7 @@ export function Navbar() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <ThemeToggle className="hidden sm:grid" onDark={onDark} />
+            <ThemeToggle className="hidden sm:grid" />
             <Link
               href="/contact"
               className="hidden h-10 items-center gap-1.5 rounded-full bg-brand px-5 text-sm font-semibold text-white transition-transform duration-300 hover:scale-[1.04] sm:inline-flex"
@@ -148,9 +140,7 @@ export function Navbar() {
               onClick={() => setOpen((v) => !v)}
               aria-label={open ? "Close menu" : "Open menu"}
               aria-expanded={open}
-              className={`grid h-10 w-10 place-items-center rounded-full border lg:hidden ${
-                onDark ? "border-white/25 text-white" : "border-line text-fg"
-              }`}
+              className="grid h-10 w-10 place-items-center rounded-full border border-line text-fg lg:hidden"
             >
               <span className="relative block h-4 w-5">
                 <span className={`absolute left-0 h-0.5 w-5 bg-current transition-all duration-300 ${open ? "top-1.5 rotate-45" : "top-0"}`} />

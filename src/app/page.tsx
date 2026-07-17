@@ -3,7 +3,9 @@ import { Stats } from "@/components/Stats";
 import { SpinLyfeX } from "@/components/SpinLyfeX";
 import { Quality } from "@/components/Quality";
 import { Catalog } from "@/components/Catalog";
+import { ModelCoverage } from "@/components/ModelCoverage";
 import { Solutions } from "@/components/Solutions";
+import { RetrofitMatrix } from "@/components/RetrofitMatrix";
 import { Services } from "@/components/Services";
 import { Company } from "@/components/Company";
 import { Testimonials } from "@/components/Testimonials";
@@ -19,7 +21,9 @@ export default function Home() {
       <SpinLyfeX />
       <Quality />
       <Catalog />
+      <ModelCoverage />
       <Solutions />
+      <RetrofitMatrix />
       <Services />
       <Company />
       <Testimonials />

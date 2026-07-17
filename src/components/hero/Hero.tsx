@@ -1,118 +1,59 @@
 "use client";
 
-import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
-import { heroCallouts, company } from "@/lib/data";
+import Image from "next/image";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { heroSlides, company } from "@/lib/data";
 import { Icons } from "@/components/Icons";
-import { Loader } from "@/components/Loader";
 
-const Scene = dynamic(() => import("./Scene"), {
-  ssr: false,
-  loading: () => <SceneFallback />,
-});
-
-function SceneFallback() {
-  return (
-    <div className="absolute inset-0 grid place-items-center">
-      <Loader size={96} label="Loading 3D model" />
-    </div>
-  );
-}
-
-const stages = [
-  { at: 0.12, side: "left" as const },
-  { at: 0.42, side: "right" as const },
-  { at: 0.72, side: "left" as const },
-];
+const AUTOPLAY_MS = 5500;
 
 export function Hero() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const stickyRef = useRef<HTMLDivElement>(null);
-  const progress = useRef(0);
-  const [stage, setStage] = useState(-1);
-  const [reduced, setReduced] = useState(false);
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const reduced = useRef(false);
+
+  const go = useCallback((next: number) => {
+    setIndex((next + heroSlides.length) % heroSlides.length);
+  }, []);
 
   useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduced(mq.matches);
-
-    let raf = 0;
-    const tick = () => {
-      const sec = sectionRef.current;
-      const sticky = stickyRef.current;
-      if (sec && sticky) {
-        const rect = sec.getBoundingClientRect();
-        const total = sec.offsetHeight - window.innerHeight;
-        const p = Math.min(1, Math.max(0, -rect.top / Math.max(1, total)));
-        progress.current = p;
-
-        // drive cheap CSS vars (no React re-render)
-        sticky.style.setProperty("--p", p.toFixed(4));
-        sticky.style.setProperty("--head", String(Math.max(0, 1 - p / 0.16)));
-
-        // discrete callout stage
-        let s = -1;
-        for (let i = 0; i < stages.length; i++) {
-          if (p >= stages[i].at && p < (stages[i + 1]?.at ?? 1.01)) s = i;
-        }
-        setStage((prev) => (prev === s ? prev : s));
-      }
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    reduced.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   }, []);
+
+  useEffect(() => {
+    if (paused || reduced.current) return;
+    const t = setInterval(() => setIndex((i) => (i + 1) % heroSlides.length), AUTOPLAY_MS);
+    return () => clearInterval(t);
+  }, [paused]);
+
+  const slide = heroSlides[index];
 
   return (
     <section
-      ref={sectionRef}
       id="top"
-      className="relative h-[360vh]"
-      aria-label="Interactive product hero"
+      aria-label="Nachi Tekneka highlights"
+      className="relative flex min-h-screen w-full flex-col overflow-hidden bg-bg grain"
     >
-      <div
-        ref={stickyRef}
-        className="stage-dark sticky top-0 h-screen w-full overflow-hidden bg-bg grain"
-        style={{ ["--p" as string]: 0, ["--head" as string]: 1 }}
-      >
-        {/* ambient backdrop */}
-        <div className="pointer-events-none absolute inset-0 bg-radial-brand opacity-70" />
-        <div className="pointer-events-none absolute inset-0 bg-grid [mask-image:radial-gradient(70%_60%_at_50%_40%,#000,transparent)]" />
+      {/* ambient backdrop */}
+      <div className="pointer-events-none absolute inset-0 bg-radial-brand opacity-50" />
+      <div className="pointer-events-none absolute inset-0 bg-grid [mask-image:radial-gradient(70%_60%_at_50%_40%,#000,transparent)]" />
 
-        {/* 3D canvas */}
-        <div className="absolute inset-0">
-          <Scene progress={progress} />
-        </div>
-
-        {/* Legibility scrim behind hero text (above canvas, below text) */}
-        <div
-          className="pointer-events-none absolute inset-x-0 top-0 z-[5] h-[68%] bg-gradient-to-b from-bg via-bg/55 to-transparent md:h-[58%]"
-          style={{ opacity: "calc(0.35 + 0.65 * var(--head))" }}
-        />
-
-        {/* Top headline — fades out on scroll */}
-        <div
-          className="absolute inset-x-0 top-0 z-10 flex flex-col items-center px-6 pt-28 text-center md:pt-32"
-          style={{
-            opacity: "var(--head)",
-            transform: "translateY(calc((1 - var(--head)) * -30px))",
-          }}
-        >
+      <div className="container-x relative flex flex-1 flex-col justify-center gap-10 pb-16 pt-28 md:gap-12 md:pt-32 lg:flex-row lg:items-center lg:gap-14">
+        {/* Copy */}
+        <div className="flex max-w-2xl flex-col items-start lg:flex-1">
           <p className="eyebrow mb-5 flex items-center gap-2 text-brand">
             <span className="h-px w-8 bg-brand" />
             {company.cert}
-            <span className="h-px w-8 bg-brand" />
           </p>
-          <h1 className="h-display text-balance text-5xl text-gradient sm:text-6xl md:text-7xl lg:text-[5.6rem]">
-            Engineering the future
-            <br />
-            of the <span className="text-brand-gradient">spinning industry</span>
+          <h1 className="h-display text-balance text-5xl text-gradient sm:text-6xl lg:text-7xl">
+            Engineering the future of the{" "}
+            <span className="text-brand-gradient">spinning industry</span>
           </h1>
-          <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted [text-shadow:0_1px_16px_rgba(0,0,0,0.55)] md:text-lg">
+          <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted md:text-lg">
             Nachi SpinLyfeX™ retrofits, OEM-level spare parts and onsite technical
             services — from blowroom to ring frame.
           </p>
-          <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row">
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <a
               href="/spinlyfex"
               className="shine group inline-flex h-12 items-center gap-2 rounded-full bg-brand px-7 text-sm font-semibold text-white transition-transform duration-300 hover:scale-[1.03]"
@@ -127,73 +68,140 @@ export function Hero() {
               Request a quote
             </a>
           </div>
+
+          {/* trust strip */}
+          <dl className="mt-12 hidden grid-cols-3 gap-8 border-t border-line pt-6 sm:grid">
+            {[
+              ["500+", "Trusted customers"],
+              ["3", "Countries, one network"],
+              ["ISO", "9001:2015 certified"],
+            ].map(([v, l]) => (
+              <div key={l} className="flex flex-col">
+                <dt className="order-last text-xs uppercase tracking-[0.16em] text-faint">{l}</dt>
+                <dd className="font-display text-2xl font-semibold text-fg">{v}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
 
-        {/* Product label — appears after headline fades */}
+        {/* Carousel */}
         <div
-          className="pointer-events-none absolute inset-x-0 top-24 z-10 text-center transition-opacity duration-500 md:top-28"
-          style={{ opacity: stage >= 0 && !reduced ? 1 : 0 }}
+          className="w-full max-w-xl lg:flex-1"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onFocusCapture={() => setPaused(true)}
+          onBlurCapture={() => setPaused(false)}
         >
-          <p className="eyebrow text-faint">Nachi SpinLyfeX™ · Servo Upgrade MAXX</p>
-        </div>
+          <div
+            role="region"
+            aria-roledescription="carousel"
+            aria-label="Products and services"
+            className="glass-strong relative overflow-hidden rounded-3xl shadow-card"
+          >
+            {/* slide viewport */}
+            <div className="relative">
+              <div
+                className="flex transition-transform duration-700"
+                style={{
+                  transform: `translateX(-${index * 100}%)`,
+                  transitionTimingFunction: "var(--ease-out-expo)",
+                }}
+              >
+                {heroSlides.map((s, i) => (
+                  <div
+                    key={s.id}
+                    role="group"
+                    aria-roledescription="slide"
+                    aria-label={`${i + 1} of ${heroSlides.length}: ${s.title}`}
+                    aria-hidden={i !== index}
+                    className="w-full shrink-0"
+                  >
+                    <div className="relative m-4 mb-0 overflow-hidden rounded-2xl bg-white">
+                      <div
+                        className="pointer-events-none absolute inset-x-0 top-0 h-1"
+                        style={{ background: s.accent }}
+                      />
+                      <Image
+                        src={s.img}
+                        alt={s.title}
+                        width={1160}
+                        height={640}
+                        priority={i === 0}
+                        className="aspect-[16/9] w-full object-contain p-4"
+                      />
+                    </div>
+                    <div className="p-6 md:p-7">
+                      <p
+                        className="text-[0.68rem] font-semibold uppercase tracking-[0.22em]"
+                        style={{ color: s.accent }}
+                      >
+                        {s.kicker}
+                      </p>
+                      <h2 className="mt-2 font-display text-2xl font-semibold leading-tight text-fg">
+                        {s.title}
+                      </h2>
+                      <p className="mt-1 text-xs font-medium uppercase tracking-[0.12em] text-faint">
+                        {s.fit}
+                      </p>
+                      <p className="mt-3 text-sm leading-relaxed text-muted">{s.body}</p>
+                      <a
+                        href={s.href}
+                        tabIndex={i === index ? 0 : -1}
+                        className="group mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand"
+                      >
+                        {s.cta}
+                        <Icons.arrow className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-        {/* Scroll-driven feature callouts */}
-        {!reduced &&
-          heroCallouts.map((c, i) => (
-            <Callout key={c.id} active={stage === i} side={stages[i].side} data={c} />
-          ))}
-
-        {/* Scroll cue */}
-        <div
-          className="absolute inset-x-0 bottom-8 z-10 flex flex-col items-center gap-2 text-faint transition-opacity"
-          style={{ opacity: "var(--head)" }}
-        >
-          <span className="text-[0.7rem] uppercase tracking-[0.3em]">Scroll to reveal</span>
-          <span className="relative flex h-9 w-5 justify-center rounded-full border border-fg/25">
-            <span className="mt-1.5 h-2 w-1 animate-bounce rounded-full bg-fg/50" />
-          </span>
+            {/* controls */}
+            <div className="flex items-center justify-between border-t border-line px-6 py-4">
+              <div className="flex items-center gap-2">
+                {heroSlides.map((s, i) => (
+                  <button
+                    key={s.id}
+                    type="button"
+                    aria-label={`Go to slide ${i + 1}: ${s.title}`}
+                    aria-current={i === index}
+                    onClick={() => go(i)}
+                    className="group flex h-6 items-center"
+                  >
+                    <span
+                      className={`h-1.5 rounded-full transition-all duration-500 ${
+                        i === index
+                          ? "w-7 bg-brand"
+                          : "w-1.5 bg-fg/25 group-hover:bg-fg/50"
+                      }`}
+                    />
+                  </button>
+                ))}
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  aria-label="Previous slide"
+                  onClick={() => go(index - 1)}
+                  className="grid h-9 w-9 place-items-center rounded-full border border-line text-fg transition-colors hover:bg-surface2"
+                >
+                  <Icons.arrow className="h-4 w-4 rotate-180" />
+                </button>
+                <button
+                  type="button"
+                  aria-label="Next slide"
+                  onClick={() => go(index + 1)}
+                  className="grid h-9 w-9 place-items-center rounded-full border border-line text-fg transition-colors hover:bg-surface2"
+                >
+                  <Icons.arrow className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
-  );
-}
-
-function Callout({
-  active,
-  side,
-  data,
-}: {
-  active: boolean;
-  side: "left" | "right";
-  data: { title: string; body: string };
-}) {
-  return (
-    <div
-      className={`absolute top-1/2 z-10 w-[min(20rem,80vw)] -translate-y-1/2 ${
-        side === "left" ? "left-6 md:left-16" : "right-6 md:right-16"
-      }`}
-      style={{
-        opacity: active ? 1 : 0,
-        transform: `translateY(-50%) translateX(${active ? "0" : side === "left" ? "-16px" : "16px"})`,
-        transition: "opacity .6s var(--ease-out-expo), transform .6s var(--ease-out-expo)",
-        pointerEvents: active ? "auto" : "none",
-      }}
-    >
-      <div className="glass-strong rounded-2xl p-5">
-        <div className="mb-2 flex items-center gap-2">
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="absolute inline-flex h-full w-full rounded-full bg-brand/60 [animation:pulse-ring_1.6s_ease-out_infinite]" />
-            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-brand" />
-          </span>
-          <span className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-brand">
-            Feature
-          </span>
-        </div>
-        <h3 className="font-display text-lg font-semibold leading-tight text-fg">
-          {data.title}
-        </h3>
-        <p className="mt-2 text-sm leading-relaxed text-muted">{data.body}</p>
-      </div>
-    </div>
   );
 }
