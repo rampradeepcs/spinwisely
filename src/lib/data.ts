@@ -32,21 +32,62 @@ export const stats = [
   { value: 20, suffix: "%", label: "Lower maintenance cost*" },
 ];
 
-export const heroCallouts = [
+/* Hero carousel — the four brochure pillars + flagship retrofits */
+export const heroSlides = [
   {
-    id: "controller",
-    title: "G90 AC Servo + Motion Controller",
-    body: "High-performance drive that replaces legacy servo electronics without altering the machine.",
+    id: "maxx",
+    kicker: "Nachi SpinLyfeX™ Retrofits",
+    title: "Servo Upgrade MAXX",
+    fit: "RSB D30 · D35 · D40 · D45 · D22 · D24",
+    body: "Eliminates the differential gearbox entirely — G90 AC Servo + Motion Controller, high-torque M90 servomotor and E-Draft on the HMI, in one plug-and-play system.",
+    img: asset("/spinlyfex/maxx.jpg"),
+    href: "/spinlyfex",
+    cta: "Explore retrofits",
+    accent: "#ed3237",
   },
   {
-    id: "motor",
-    title: "M90 High-Torque Servomotor",
-    body: "Precision AC servomotor engineered for consistent draft and long service life.",
+    id: "inverter",
+    kicker: "Nachi SpinLyfeX™ Retrofits",
+    title: "Inverter Upgrade",
+    fit: "Blowroom · Carding · Lap Former · Spinning",
+    body: "Legacy KEB, Commander & Vectron drives converted to robust Yaskawa V1000 / A1000 / GA700 platforms — with the machine's originality preserved.",
+    img: asset("/spinlyfex/inverter.jpg"),
+    href: "/spinlyfex",
+    cta: "See conversion matrix",
+    accent: "#f5a623",
   },
   {
-    id: "hmi",
-    title: "E-Draft via HMI",
-    body: "On-screen draft adjustments eliminate NW1 / NW2 gear changes entirely.",
+    id: "leveler",
+    kicker: "Nachi SpinLyfeX™ Retrofits",
+    title: "Carding Auto Leveler",
+    fit: "DK 715 · 740 · 760 · 780 · 800 · 803 · 903",
+    body: "Closed-loop feedback control for even sliver — hank variation held within ±0.04, 5 m CV under 2.5% and about 20% lower electrical maintenance cost.",
+    img: asset("/spinlyfex/leveler.jpg"),
+    href: "/spinlyfex",
+    cta: "Explore retrofits",
+    accent: "#2ec4a6",
+  },
+  {
+    id: "parts",
+    kicker: "Premium Parts",
+    title: "OEM-Quality Spare Parts",
+    fit: "Blowroom → Comber → Draw Frame → Ring Frame",
+    body: "Electrical, electronic, pneumatic and precision mechanical parts — equal & equivalent raw materials, dimensional accuracy and assembly-tested quality.",
+    img: asset("/hero/parts-ringframe.jpg"),
+    href: "/products",
+    cta: "Browse the catalog",
+    accent: "#5b8def",
+  },
+  {
+    id: "services",
+    kicker: "Technical Services",
+    title: "Onsite & Laboratory Audits",
+    fit: "Draw Frame · Comber · Ring & Compact Frame",
+    body: "Spectrogram-driven technical audits, auto-leveler calibration and top-arm rebuilds — delivered onsite by an experienced service team.",
+    img: asset("/hero/audit-charts.jpg"),
+    href: "/services",
+    cta: "View services",
+    accent: "#ed3237",
   },
 ];
 
@@ -242,6 +283,42 @@ export const offices = [
   { city: "Coimbatore", country: "India", role: "Headquarters", flag: "🇮🇳", x: 70, y: 58 },
   { city: "Wyoming", country: "USA", role: "Nachi Tekneka USA LLC", flag: "🇺🇸", x: 20, y: 42 },
   { city: "Mexico City", country: "Mexico", role: "Indmex Technology SA DE DV", flag: "🇲🇽", x: 22, y: 55 },
+];
+
+/* Inverter Upgrade conversion matrix — brochure p.04 */
+export const inverterMatrix = [
+  { dept: "Blowroom", machine: "Uniclean", model: "B11", cat: "N1", from: "KEB F4 / F5", to: "Yaskawa V1000" },
+  { dept: "Blowroom", machine: "Uniflex", model: "B60", cat: "N1 and N2", from: "KEB F4 / F5", to: "Yaskawa V1000" },
+  { dept: "Blowroom", machine: "Uniflex", model: "B70", cat: "N1 and N2", from: "KEB F4 / F5", to: "Yaskawa V1000" },
+  { dept: "Carding", machine: "Carding", model: "C50", cat: "N10 and N11", from: "Commander SK", to: "Yaskawa V1000" },
+  { dept: "Carding", machine: "Carding", model: "C50", cat: "N10 and N11", from: "KEB F4 / F5", to: "Yaskawa V1000" },
+  { dept: "Carding", machine: "Carding", model: "C51", cat: "N1, N10, N11 and N43", from: "KEB F4 / F5", to: "Yaskawa V1000" },
+  { dept: "Lap Former", machine: "Unilap", model: "E30", cat: "U1", from: "Commander SK", to: "Yaskawa A1000" },
+  { dept: "Lap Former", machine: "Unilap", model: "E32", cat: "U1", from: "KEB F4 / F5", to: "Yaskawa A1000" },
+  { dept: "Spinning", machine: "Ring Spinning", model: "G33", cat: "U1, U60, U80 and U90", from: "KEB F4 / F5", to: "Yaskawa A1000 / GA700" },
+  { dept: "Spinning", machine: "Compact Spinning", model: "K44", cat: "U1, U60, U80 and U90", from: "KEB F4 / F5", to: "Yaskawa A1000 / GA700" },
+  { dept: "Spinning", machine: "Ring Spinning", model: "RM 350", cat: "A25 & A27", from: "VECTRON", to: "Yaskawa A1000 / GA700" },
+];
+
+/* Retrofit systems for various machines — brochure p.05 */
+export const retrofitSystems = [
+  { dept: "Blowroom", make: "Rieter", model: "All", mod: "Contifeed system — complete electrical conversion system" },
+  { dept: "Blowroom", make: "Truetzschler", model: "All", mod: "Contifeed system — complete electrical conversion system" },
+  { dept: "Carding", make: "Rieter", model: "C50 · C51", mod: "Complete electrical conversion system with auto leveler" },
+  { dept: "Carding", make: "Truetzschler", model: "DK 715 · 740 · 760 · 780 · 803 · 903", mod: "Complete electrical conversion system with auto leveler" },
+  { dept: "Carding", make: "Crosrol", model: "MK5A · MK5B · MK6", mod: "Complete electrical conversion system with auto leveler" },
+  { dept: "Spinning", make: "Rieter", model: "G5/1 · G5/2", mod: "Complete electrical conversion system with VFD drive" },
+];
+
+/* Machine models covered by the parts program — brochure p.07–09 */
+export const modelCoverage = [
+  { family: "Blow Room & Carding", models: ["C50", "C51", "C60", "C61", "C70", "C72", "C77", "C80"] },
+  { family: "Lap Former", models: ["E30", "E32", "E35", "E36", "E25", "E26"] },
+  { family: "Comber", models: ["E60", "E60H", "E62", "E65", "E66", "E70", "E70R", "E72", "E75", "E76", "E80", "E86", "E90"] },
+  { family: "Draw Frame — Finisher", models: ["D30", "D35", "D40", "D45", "D50", "D22", "D221", "D24", "D26"] },
+  { family: "Draw Frame — Breaker", models: ["D10", "D15", "D40", "D45", "D50", "D22", "D221", "D24", "D26"] },
+  { family: "Ring & Compact Frame", models: ["G30", "G32", "G33", "G35", "G36", "G37", "G38", "K42", "K44", "K45", "K46", "K47", "K48"] },
+  { family: "Top Rollers", models: ["Lap Former", "Comber", "Draw Frame"] },
 ];
 
 export const downloads = [
