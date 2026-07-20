@@ -26,6 +26,39 @@ export async function generateMetadata({
   };
 }
 
+/** Subtle repeated brand watermark laid over product imagery. */
+function Watermark() {
+  return (
+    <svg
+      className="pointer-events-none absolute inset-0 z-[5] h-full w-full select-none"
+      aria-hidden
+    >
+      <defs>
+        <pattern
+          id="nt-wm"
+          width="230"
+          height="130"
+          patternUnits="userSpaceOnUse"
+          patternTransform="rotate(-24)"
+        >
+          <text
+            x="0"
+            y="70"
+            fontSize="19"
+            fontWeight="600"
+            fill="#16171c"
+            opacity="0.08"
+            fontFamily="var(--font-display), system-ui, sans-serif"
+          >
+            nachi tekneka™
+          </text>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#nt-wm)" />
+    </svg>
+  );
+}
+
 const highlights = [
   { icon: "materials", text: "Equal & equivalent raw materials" },
   { icon: "precision", text: "Precision dimensional accuracy" },
@@ -67,6 +100,7 @@ export default async function ProductPage({
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-contain p-8"
               />
+              <Watermark />
             </div>
             <span className="absolute left-5 top-5 rounded-full bg-brand px-3 py-1 text-xs font-semibold text-white">
               OEM-level quality
