@@ -3,6 +3,7 @@ import { Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { NoRightClick } from "@/components/NoRightClick";
+import { WhatsAppFloat } from "@/components/WhatsAppFloat";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Splash } from "@/components/Splash";
@@ -105,6 +106,7 @@ export default function RootLayout({
         <Navbar />
         <div id="main-content">{children}</div>
         <Footer />
+        <WhatsAppFloat />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

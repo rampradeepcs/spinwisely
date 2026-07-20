@@ -1,4 +1,6 @@
+import Image from "next/image";
 import { services } from "@/lib/data";
+import { asset } from "@/lib/asset";
 import { SectionHead } from "./Section";
 import { Reveal } from "./Reveal";
 import { Icons } from "./Icons";
@@ -17,6 +19,23 @@ export function Services() {
           intro="Our experienced service team performs comprehensive onsite assessments, calibration and rebuilds — backed by laboratory analysis and prioritized action plans."
           align="center"
         />
+
+        {/* Spectrogram — measurable audit results, before and after */}
+        <Reveal delay={2}>
+          <figure className="mx-auto mt-12 max-w-4xl overflow-hidden rounded-2xl border border-line bg-white shadow-card">
+            <Image
+              src={asset("/hero/audit-charts-v2.jpg")}
+              alt="Sliver spectrogram before and after a technical audit — the fault peak is eliminated"
+              width={1554}
+              height={395}
+              className="w-full px-6 pt-6"
+            />
+            <figcaption className="px-6 py-4 text-center text-sm text-faint">
+              Spectrogram analysis before and after an audit — mechanical fault peak eliminated,
+              sliver evenness restored.
+            </figcaption>
+          </figure>
+        </Reveal>
 
         <div className="mt-14 grid gap-4 lg:grid-cols-3">
           {services.map((s, i) => (
