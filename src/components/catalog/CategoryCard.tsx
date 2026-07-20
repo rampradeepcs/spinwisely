@@ -12,19 +12,31 @@ export function CategoryCard({ category }: { category: Category }) {
       href={`/products/${category.slug}`}
       className="group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface transition-all duration-500 hover:-translate-y-1 hover:border-brand/40 hover:shadow-card"
     >
-      <div className="relative grid grid-cols-3 gap-px bg-white">
-        {previews.map((p) => (
-          <div key={p.id} className="relative aspect-square">
-            <Image
-              src={p.img}
-              alt=""
-              fill
-              sizes="20vw"
-              className="object-contain p-2.5"
-            />
-          </div>
-        ))}
-      </div>
+      {category.groupImg ? (
+        <div className="relative aspect-video overflow-hidden bg-white">
+          <Image
+            src={category.groupImg}
+            alt={`${category.name} parts`}
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+          />
+        </div>
+      ) : (
+        <div className="relative grid grid-cols-3 gap-px bg-white">
+          {previews.map((p) => (
+            <div key={p.id} className="relative aspect-square">
+              <Image
+                src={p.img}
+                alt=""
+                fill
+                sizes="20vw"
+                className="object-contain p-2.5"
+              />
+            </div>
+          ))}
+        </div>
+      )}
       <div className="flex flex-1 flex-col p-6">
         <div className="flex items-start justify-between">
           <div className="grid h-11 w-11 place-items-center rounded-xl bg-brand/10 text-brand ring-1 ring-brand/20">

@@ -10,7 +10,7 @@ import { categories, categoryCount } from "@/lib/catalog";
 const links = [
   { label: "Products", href: "/products", dropdown: true },
   { label: "SpinLyfeX", href: "/spinlyfex" },
-  { label: "Solutions", href: "/solutions" },
+  { label: "Solutions", href: "/#solutions" },
   { label: "Services", href: "/services" },
   { label: "Company", href: "/about" },
 ];

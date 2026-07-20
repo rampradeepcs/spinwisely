@@ -73,7 +73,7 @@ export const heroSlides = [
     title: "OEM-Quality Spare Parts",
     fit: "Blowroom → Comber → Draw Frame → Ring Frame",
     body: "Electrical, electronic, pneumatic and precision mechanical parts — equal & equivalent raw materials, dimensional accuracy and assembly-tested quality.",
-    img: asset("/hero/parts-ringframe.jpg"),
+    img: asset("/hero/parts-ringframe-v2.jpg"),
     href: "/products",
     cta: "Browse the catalog",
     accent: "#5b8def",
@@ -84,7 +84,7 @@ export const heroSlides = [
     title: "Onsite & Laboratory Audits",
     fit: "Draw Frame · Comber · Ring & Compact Frame",
     body: "Spectrogram-driven technical audits, auto-leveler calibration and top-arm rebuilds — delivered onsite by an experienced service team.",
-    img: asset("/hero/audit-charts.jpg"),
+    img: asset("/hero/audit-charts-v2.jpg"),
     href: "/services",
     cta: "View services",
     accent: "#ed3237",
@@ -109,7 +109,7 @@ export const spinlyfex = [
     summary:
       "Next-generation servo package for the D-series, delivering higher torque and tighter control loops.",
     accent: "#5b8def",
-    img: asset("/spinlyfex/servo-pro.jpg"),
+    img: asset("/spinlyfex/servo-pro-v2.jpg"),
   },
   {
     id: "maxx",
@@ -279,10 +279,11 @@ export const testimonials = [
   },
 ];
 
+/* x/y are percentages projected onto /world-dots.svg (same projection). */
 export const offices = [
-  { city: "Coimbatore", country: "India", role: "Headquarters", flag: "🇮🇳", x: 70, y: 58 },
-  { city: "Wyoming", country: "USA", role: "Nachi Tekneka USA LLC", flag: "🇺🇸", x: 20, y: 42 },
-  { city: "Mexico City", country: "Mexico", role: "Indmex Technology SA DE DV", flag: "🇲🇽", x: 22, y: 55 },
+  { city: "Coimbatore", country: "India", role: "Headquarters", flag: "🇮🇳", x: 67.7, y: 49.2 },
+  { city: "Wyoming", country: "USA", role: "Nachi Tekneka USA LLC", flag: "🇺🇸", x: 19.7, y: 33.1 },
+  { city: "Mexico City", country: "Mexico", role: "Indmex Technology SA DE DV", flag: "🇲🇽", x: 21.2, y: 44.7 },
 ];
 
 /* Inverter Upgrade conversion matrix — brochure p.04 */

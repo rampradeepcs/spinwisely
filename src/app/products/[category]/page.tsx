@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { categories, categoryCount, getCategory } from "@/lib/catalog";
@@ -41,6 +42,24 @@ export default async function CategoryPage({
         eyebrow={cat.department}
         title={<span className="text-gradient">{cat.name}</span>}
         intro={cat.blurb}
+        aside={
+          cat.groupImg ? (
+            <div className="relative overflow-hidden rounded-2xl border border-line bg-white shadow-card">
+              <div
+                className="pointer-events-none absolute inset-x-0 top-0 z-10 h-1"
+                style={{ background: "var(--color-brand)" }}
+              />
+              <Image
+                src={cat.groupImg}
+                alt={`${cat.name} parts`}
+                width={1280}
+                height={720}
+                priority
+                className="aspect-video w-full object-cover"
+              />
+            </div>
+          ) : undefined
+        }
       >
         <nav className="mt-2 flex items-center gap-2 text-sm text-faint" aria-label="Breadcrumb">
           <Link href="/products" className="hover:text-brand">

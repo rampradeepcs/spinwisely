@@ -1,15 +1,66 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { solutions } from "@/lib/data";
 import { SectionHead } from "./Section";
 import { Icons } from "./Icons";
 
+const STEP_MS = 800;
+
 export function Solutions() {
-  const [hover, setHover] = useState(0);
+  const [active, setActive] = useState(0);
+  const sectionRef = useRef<HTMLElement>(null);
+  const played = useRef(false);
+  const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const stopAutoplay = () => {
+    if (timer.current) {
+      clearInterval(timer.current);
+      timer.current = null;
+    }
+  };
+
+  // Step the timeline 01 → 06 once the section scrolls into view.
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting || played.current) continue;
+          played.current = true;
+          io.disconnect();
+          setActive(0);
+          let i = 0;
+          timer.current = setInterval(() => {
+            i += 1;
+            if (i >= solutions.length - 1) stopAutoplay();
+            setActive(Math.min(i, solutions.length - 1));
+          }, STEP_MS);
+        }
+      },
+      { threshold: 0.35 },
+    );
+    io.observe(el);
+    return () => {
+      io.disconnect();
+      stopAutoplay();
+    };
+  }, []);
+
+  const select = (i: number) => {
+    stopAutoplay(); // a hover takes over from the autoplay
+    setActive(i);
+  };
 
   return (
-    <section id="solutions" className="relative border-y border-line bg-surface py-24 md:py-32">
+    <section
+      ref={sectionRef}
+      id="solutions"
+      className="relative border-y border-line bg-surface py-24 md:py-32"
+    >
       <div className="container-x grid gap-14 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="lg:sticky lg:top-28 lg:self-start">
           <SectionHead
@@ -22,7 +73,7 @@ export function Solutions() {
             intro="Complete electrical conversions, drive modernization and mechanical retrofits across every stage of yarn manufacturing."
           />
           <div className="mt-10 hidden aspect-video items-center justify-center rounded-2xl border border-line bg-gradient-to-br from-[color-mix(in_oklab,var(--fg)_6%,transparent)] to-transparent lg:flex">
-            <ProcessLine active={hover} />
+            <ProcessLine active={active} />
           </div>
         </div>
 
@@ -30,7 +81,7 @@ export function Solutions() {
           {solutions.map((s, i) => (
             <li
               key={s.name}
-              onMouseEnter={() => setHover(i)}
+              onMouseEnter={() => select(i)}
               className="group relative border-b border-line py-6 transition-colors"
             >
               <div

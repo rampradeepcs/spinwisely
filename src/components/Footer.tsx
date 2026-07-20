@@ -6,7 +6,7 @@ import { categories } from "@/lib/catalog";
 const explore = [
   { label: "Products", href: "/products" },
   { label: "SpinLyfeX", href: "/spinlyfex" },
-  { label: "Solutions", href: "/solutions" },
+  { label: "Solutions", href: "/#solutions" },
   { label: "Services", href: "/services" },
   { label: "Company", href: "/about" },
   { label: "Careers", href: "/careers" },

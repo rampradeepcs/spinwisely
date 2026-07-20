@@ -1,4 +1,5 @@
 import { offices } from "@/lib/data";
+import { asset } from "@/lib/asset";
 import { SectionHead } from "./Section";
 import { Reveal } from "./Reveal";
 
@@ -38,9 +39,16 @@ export function GlobalPresence() {
         </div>
 
         <Reveal delay={2}>
-          <div className="relative aspect-square overflow-hidden rounded-2xl border border-line bg-surface md:aspect-[4/3]">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-line bg-surface">
             <div className="absolute inset-0 bg-grid opacity-40" />
-            <MapDots />
+            {/* Dotted world map (Natural Earth land, same projection as office x/y) */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={asset("/world-dots.svg")}
+              alt=""
+              aria-hidden
+              className="absolute inset-0 h-full w-full [mask-image:radial-gradient(90%_90%_at_50%_50%,#000,transparent)]"
+            />
             {/* markers */}
             {offices.map((o) => (
               <div
@@ -59,8 +67,8 @@ export function GlobalPresence() {
             ))}
             {/* connection arcs */}
             <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-              <path d="M20 42 Q 45 20 70 58" fill="none" stroke="#ed3237" strokeWidth="0.4" strokeDasharray="1 1.5" opacity="0.7" />
-              <path d="M22 55 Q 45 75 70 58" fill="none" stroke="#ed3237" strokeWidth="0.4" strokeDasharray="1 1.5" opacity="0.7" />
+              <path d="M19.7 33.1 Q 44 16 67.7 49.2" fill="none" stroke="#ed3237" strokeWidth="0.4" strokeDasharray="1 1.5" opacity="0.7" />
+              <path d="M21.2 44.7 Q 45 70 67.7 49.2" fill="none" stroke="#ed3237" strokeWidth="0.4" strokeDasharray="1 1.5" opacity="0.7" />
             </svg>
           </div>
         </Reveal>
@@ -69,39 +77,3 @@ export function GlobalPresence() {
   );
 }
 
-/** Abstract dotted landmass field. */
-function MapDots() {
-  const dots: React.ReactElement[] = [];
-  const rng = mulberry32(42);
-  for (let i = 0; i < 260; i++) {
-    const x = rng() * 100;
-    const y = 15 + rng() * 70;
-    // rough continental clustering weight
-    const near =
-      Math.abs(x - 20) < 14 || Math.abs(x - 48) < 8 || Math.abs(x - 70) < 16 || Math.abs(x - 85) < 8;
-    if (!near && rng() > 0.35) continue;
-    dots.push(
-      <circle key={i} cx={x} cy={y} r={0.5} fill="#ffffff" opacity={0.18 + rng() * 0.22} />,
-    );
-  }
-  return (
-    <svg
-      className="absolute inset-0 h-full w-full [mask-image:radial-gradient(80%_80%_at_50%_50%,#000,transparent)]"
-      viewBox="0 0 100 100"
-      preserveAspectRatio="none"
-      aria-hidden
-    >
-      {dots}
-    </svg>
-  );
-}
-
-function mulberry32(a: number) {
-  return function () {
-    a |= 0;
-    a = (a + 0x6d2b79f5) | 0;
-    let t = Math.imul(a ^ (a >>> 15), 1 | a);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}

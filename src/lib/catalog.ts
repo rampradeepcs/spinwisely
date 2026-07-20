@@ -25,6 +25,8 @@ export type Category = {
   /** Display override for the parts count (e.g. "1000+") — the full range is
    *  larger than what's photographed in the online catalog. */
   count?: string;
+  /** Official group-collage photo shown on category cards. */
+  groupImg?: string;
 };
 
 /** Displayed parts count for a category ("1000+" override or actual length). */
@@ -459,6 +461,7 @@ export const categories: Category[] = [
     blurb:
       "PCBs, measuring systems, impulse generators, encoders, sensors, tacho generators and control boards — the electronic backbone of the spinning line.",
     products: electrical,
+    groupImg: asset("/catalog/groups/electrical.jpg"),
   },
   {
     id: "pneumatics",
@@ -469,6 +472,7 @@ export const categories: Category[] = [
     blurb:
       "Solenoid & magnet valves, valve blocks, pneumatic cylinders, regulators, filters and pressure switches for reliable air control.",
     products: pneumatics,
+    groupImg: asset("/catalog/groups/pneumatics.jpg"),
     count: "1000+",
   },
   {
@@ -480,6 +484,7 @@ export const categories: Category[] = [
     blurb:
       "Rollers, sprockets, toothed-belt discs, brushes, bearings, gearing and precision mechanicals for blowroom and carding machines.",
     products: blowroom,
+    groupImg: asset("/catalog/groups/blowroom-v2.jpg"),
   },
   {
     id: "lapformer",
@@ -490,6 +495,7 @@ export const categories: Category[] = [
     blurb:
       "Toothed segments, chains, shafts, bearing saddles, loading elements, springs and seals for lap-former machines.",
     products: lapformer,
+    groupImg: asset("/catalog/groups/lapformer.jpg"),
   },
   {
     id: "comber",
@@ -500,6 +506,7 @@ export const categories: Category[] = [
     blurb:
       "Feed & detaching cylinders, combing brushes, ratchet assemblies, lap-feed components, holders and covers for combers.",
     products: comber,
+    groupImg: asset("/catalog/groups/comber-v2.jpg"),
   },
   {
     id: "drawframe",
@@ -510,6 +517,7 @@ export const categories: Category[] = [
     blurb:
       "Sensing rollers, differential gearing, coilers, calender assemblies, bearings and drive components for draw frames.",
     products: drawframe,
+    groupImg: asset("/catalog/groups/drawframe-v2.jpg"),
   },
   {
     id: "ringframe",
