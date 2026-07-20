@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
 import { SmoothScroll } from "@/components/SmoothScroll";
-import { themeScript } from "@/components/ThemeToggle";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Splash } from "@/components/Splash";
@@ -61,11 +60,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0a0c" },
-  ],
-  colorScheme: "light dark",
+  themeColor: "#ffffff",
+  colorScheme: "light",
 };
 
 const jsonLd = {
@@ -95,9 +91,6 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${display.variable} ${sans.variable} h-full antialiased`}
     >
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-      </head>
       <body className="min-h-full">
         <Splash />
         <SmoothScroll />

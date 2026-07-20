@@ -9,6 +9,7 @@ const explore = [
   { label: "Solutions", href: "/solutions" },
   { label: "Services", href: "/services" },
   { label: "Company", href: "/about" },
+  { label: "Careers", href: "/careers" },
   { label: "Downloads", href: "/downloads" },
   { label: "Contact", href: "/contact" },
 ];

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { categoryCount } from "@/lib/catalog";
 import Link from "next/link";
 import type { Category } from "@/lib/catalog";
 import { Icons } from "@/components/Icons";
@@ -30,7 +31,7 @@ export function CategoryCard({ category }: { category: Category }) {
             <Icon className="h-6 w-6" />
           </div>
           <span className="rounded-full bg-brand/10 px-3 py-1 text-xs font-semibold text-brand">
-            {category.products.length} parts
+            {categoryCount(category)} parts
           </span>
         </div>
         <h3 className="mt-5 font-display text-xl font-semibold text-fg">{category.name}</h3>

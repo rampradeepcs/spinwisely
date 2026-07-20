@@ -60,8 +60,8 @@ export function Solutions() {
 function ProcessLine({ active }: { active: number }) {
   const steps = solutions.length;
   return (
-    <svg viewBox="0 0 400 120" className="w-full px-8">
-      <line x1="20" y1="60" x2="380" y2="60" stroke="#ffffff20" strokeWidth="2" />
+    <svg viewBox="0 0 400 120" className="w-full overflow-visible px-8">
+      <line x1="20" y1="60" x2="380" y2="60" stroke="var(--line)" strokeWidth="2" />
       <line
         x1="20"
         y1="60"
@@ -80,7 +80,7 @@ function ProcessLine({ active }: { active: number }) {
               cx={x}
               cy="60"
               r={i === active ? 9 : 5}
-              fill={on ? "#ed3237" : "#2a2a30"}
+              fill={on ? "#ed3237" : "#c4c7ce"}
               style={{ transition: "all .4s var(--ease-out-expo)" }}
             />
             <text
@@ -89,7 +89,7 @@ function ProcessLine({ active }: { active: number }) {
               textAnchor="middle"
               className="font-display"
               fontSize="10"
-              fill={i === active ? "#fff" : "#ffffff70"}
+              fill={i === active ? "var(--fg)" : "var(--muted)"}
             >
               {s.name}
             </text>

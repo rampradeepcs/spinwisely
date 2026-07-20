@@ -5,8 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "./Logo";
 import { Icons } from "./Icons";
-import { ThemeToggle } from "./ThemeToggle";
-import { categories } from "@/lib/catalog";
+import { categories, categoryCount } from "@/lib/catalog";
 
 const links = [
   { label: "Products", href: "/products", dropdown: true },
@@ -105,7 +104,7 @@ export function Navbar() {
                                 {c.name}
                               </span>
                               <span className="block text-xs text-faint">
-                                {c.products.length} parts
+                                {categoryCount(c)} parts
                               </span>
                             </span>
                           </Link>
@@ -129,7 +128,6 @@ export function Navbar() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <ThemeToggle className="hidden sm:grid" />
             <Link
               href="/contact"
               className="hidden h-10 items-center gap-1.5 rounded-full bg-brand px-5 text-sm font-semibold text-white transition-transform duration-300 hover:scale-[1.04] sm:inline-flex"
@@ -175,7 +173,6 @@ export function Navbar() {
             </Link>
           ))}
           <div className="mt-6 flex items-center gap-3">
-            <ThemeToggle />
             <Link
               href="/contact"
               className="inline-flex h-14 flex-1 items-center justify-center rounded-full bg-brand text-lg font-semibold text-white"

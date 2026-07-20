@@ -321,6 +321,55 @@ export const modelCoverage = [
   { family: "Top Rollers", models: ["Lap Former", "Comber", "Draw Frame"] },
 ];
 
+/* Open positions — careers page */
+export const openRoles = [
+  {
+    id: "service-engineer",
+    title: "Service Engineer — Onsite Audits",
+    dept: "Technical Services",
+    location: "Coimbatore · Field",
+    type: "Full-time",
+    blurb:
+      "Deliver draw frame, comber and ring frame technical audits at customer mills — calibration, top-arm rebuilds and condition assessments.",
+  },
+  {
+    id: "electronics-engineer",
+    title: "Electrical & Electronics Engineer",
+    dept: "SpinLyfeX R&D",
+    location: "Coimbatore",
+    type: "Full-time",
+    blurb:
+      "Design and commission servo, inverter and auto-leveler retrofit systems — from panel wiring and drives to HMI logic.",
+  },
+  {
+    id: "sales-engineer",
+    title: "Sales Engineer — Spinning Machinery",
+    dept: "Sales",
+    location: "Coimbatore · Travel",
+    type: "Full-time",
+    blurb:
+      "Consult with spinning mills on parts and retrofit solutions; build technical proposals with our engineering team.",
+  },
+  {
+    id: "cnc-machinist",
+    title: "CNC Machinist — Precision Parts",
+    dept: "Manufacturing",
+    location: "Coimbatore",
+    type: "Full-time",
+    blurb:
+      "Machine OEM-grade spare parts to tight dimensional tolerances on CNC turning and milling centres.",
+  },
+  {
+    id: "stores-executive",
+    title: "Stores & Dispatch Executive",
+    dept: "Operations",
+    location: "Coimbatore",
+    type: "Full-time",
+    blurb:
+      "Own inventory accuracy and on-time global dispatch for 600+ catalogued parts across three regions.",
+  },
+];
+
 export const downloads = [
   {
     title: "Company Profile",

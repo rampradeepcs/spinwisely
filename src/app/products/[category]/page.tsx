@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { categories, getCategory } from "@/lib/catalog";
+import { categories, categoryCount, getCategory } from "@/lib/catalog";
 import { PageHero } from "@/components/Section";
 import { ProductBrowser } from "@/components/catalog/ProductBrowser";
 import { Icons } from "@/components/Icons";
@@ -53,7 +53,7 @@ export default async function CategoryPage({
 
       <section className="py-12 md:py-16">
         <div className="container-x">
-          <ProductBrowser products={cat.products} />
+          <ProductBrowser products={cat.products} count={cat.count} />
         </div>
       </section>
 
@@ -72,7 +72,7 @@ export default async function CategoryPage({
                 >
                   <Icon className="h-4 w-4 text-brand" />
                   {c.name}
-                  <span className="text-faint">{c.products.length}</span>
+                  <span className="text-faint">{categoryCount(c)}</span>
                 </Link>
               );
             })}
