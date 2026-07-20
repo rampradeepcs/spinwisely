@@ -12,9 +12,62 @@ const interests = [
   "General Enquiry",
 ];
 
+/** Enquiries are delivered via FormSubmit (no backend on this static site).
+ *  The second address gets its own copy — equivalent to a BCC. */
+const ENQUIRY_TO = "sales03@nachitekneka.com";
+const ENQUIRY_BCC = "rampradeepux@gmail.com";
+
+async function deliverEnquiry(data: Record<string, string>) {
+  const payload = {
+    ...data,
+    _subject: `New enquiry from nachitekneka.com — ${data.name}`,
+    _template: "table",
+    _captcha: "false",
+  };
+  const post = async (to: string) => {
+    const res = await fetch(`https://formsubmit.co/ajax/${to}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const body = await res.json().catch(() => ({}));
+    // FormSubmit answers 200 even when it did not accept (e.g. pending activation).
+    if (!res.ok || String(body.success) !== "true") throw new Error("delivery failed");
+  };
+  // BCC copy is fired in parallel; only the primary delivery gates success.
+  const [primary] = await Promise.allSettled([post(ENQUIRY_TO), post(ENQUIRY_BCC)]);
+  if (primary.status === "rejected") throw new Error("delivery failed");
+}
+
 export function Contact() {
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState(false);
   const [interest, setInterest] = useState(interests[0]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+    setSending(true);
+    setError(false);
+    try {
+      await deliverEnquiry({
+        name: String(fd.get("name") ?? ""),
+        company: String(fd.get("company") ?? ""),
+        email: String(fd.get("email") ?? ""),
+        phone: String(fd.get("phone") ?? ""),
+        interest,
+        message: String(fd.get("message") ?? ""),
+      });
+      form.reset();
+      setSent(true);
+    } catch {
+      setError(true);
+    } finally {
+      setSending(false);
+    }
+  };
 
   return (
     <section id="contact" className="relative overflow-hidden py-24 md:py-32">
@@ -70,13 +123,7 @@ export function Contact() {
                 </button>
               </div>
             ) : (
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setSent(true);
-                }}
-                className="space-y-5"
-              >
+              <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid gap-5 sm:grid-cols-2">
                   <Field label="Full name" name="name" required placeholder="Your name" />
                   <Field label="Company" name="company" placeholder="Mill / organization" />
@@ -123,11 +170,31 @@ export function Contact() {
 
                 <button
                   type="submit"
-                  className="shine inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-brand text-sm font-semibold text-white transition-transform duration-300 hover:scale-[1.01]"
+                  disabled={sending}
+                  className="shine inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-brand text-sm font-semibold text-white transition-transform duration-300 hover:scale-[1.01] disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                  Send enquiry
-                  <Icons.arrow className="h-4 w-4" />
+                  {sending ? (
+                    <>
+                      <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                      Sending…
+                    </>
+                  ) : (
+                    <>
+                      Send enquiry
+                      <Icons.arrow className="h-4 w-4" />
+                    </>
+                  )}
                 </button>
+                {error && (
+                  <p className="text-center text-sm text-brand" role="alert">
+                    Something went wrong sending your enquiry. Please try again, or
+                    email us directly at{" "}
+                    <a href={`mailto:${ENQUIRY_TO}`} className="font-semibold underline">
+                      {ENQUIRY_TO}
+                    </a>
+                    .
+                  </p>
+                )}
                 <p className="text-center text-xs text-faint">
                   We typically respond within one business day.
                 </p>
