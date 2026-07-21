@@ -12,31 +12,18 @@ const interests = [
   "General Enquiry",
 ];
 
-/** Enquiries are delivered via FormSubmit (no backend on this static site).
- *  The second address gets its own copy — equivalent to a BCC. */
+/** Shown in the error fallback so visitors can always reach us directly. */
 const ENQUIRY_TO = "sales03@nachitekneka.com";
-const ENQUIRY_BCC = "rampradeepux@gmail.com";
 
+/** Enquiries are delivered server-side via /api/contact (Resend). */
 async function deliverEnquiry(data: Record<string, string>) {
-  const payload = {
-    ...data,
-    _subject: `New enquiry from nachitekneka.com — ${data.name}`,
-    _template: "table",
-    _captcha: "false",
-  };
-  const post = async (to: string) => {
-    const res = await fetch(`https://formsubmit.co/ajax/${to}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify(payload),
-    });
-    const body = await res.json().catch(() => ({}));
-    // FormSubmit answers 200 even when it did not accept (e.g. pending activation).
-    if (!res.ok || String(body.success) !== "true") throw new Error("delivery failed");
-  };
-  // BCC copy is fired in parallel; only the primary delivery gates success.
-  const [primary] = await Promise.allSettled([post(ENQUIRY_TO), post(ENQUIRY_BCC)]);
-  if (primary.status === "rejected") throw new Error("delivery failed");
+  const res = await fetch("/api/contact", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  const body = await res.json().catch(() => ({}));
+  if (!res.ok || body.ok !== true) throw new Error("delivery failed");
 }
 
 export function Contact() {
