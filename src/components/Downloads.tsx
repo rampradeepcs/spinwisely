@@ -20,7 +20,9 @@ export function Downloads() {
           {downloads.map((d, i) => (
             <Reveal key={d.title} delay={((i % 3) + 1) as 1 | 2 | 3}>
               <a
-                href="/contact"
+                href={d.href ?? "/contact"}
+                target={d.href ? "_blank" : undefined}
+                rel={d.href ? "noopener noreferrer" : undefined}
                 className="group flex h-full flex-col rounded-2xl border border-line bg-gradient-to-b from-[color-mix(in_oklab,var(--fg)_5%,transparent)] to-transparent p-7 transition-all duration-500 hover:-translate-y-1 hover:border-brand/40"
               >
                 <div className="flex items-center justify-between">
@@ -34,7 +36,7 @@ export function Downloads() {
                 <h3 className="mt-6 font-display text-lg font-semibold text-fg">{d.title}</h3>
                 <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{d.desc}</p>
                 <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-brand">
-                  Request document
+                  {d.href ? "Download PDF" : "Request document"}
                   <Icons.arrow className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </span>
               </a>

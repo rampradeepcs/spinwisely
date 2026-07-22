@@ -377,6 +377,7 @@ export const downloads = [
     desc: "Full 51-page catalog — products, retrofits & services.",
     meta: "PDF · 5.8 MB",
     kind: "brochure",
+    href: asset("/brochure.pdf"),
   },
   {
     title: "SpinLyfeX Retrofit Guide",
