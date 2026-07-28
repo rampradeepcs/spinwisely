@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Contact } from "@/components/Contact";
+import { GlobalPresence } from "@/components/GlobalPresence";
 
 export const metadata: Metadata = {
   title: "Contact — Get a Quote",
@@ -11,6 +12,7 @@ export default function ContactPage() {
   return (
     <main className="pt-16">
       <Contact />
+      <GlobalPresence />
     </main>
   );
 }

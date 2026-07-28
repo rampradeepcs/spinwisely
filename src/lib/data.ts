@@ -261,29 +261,70 @@ export const services = [
 export const testimonials = [
   {
     quote:
-      "The SpinLyfeX MAXX retrofit removed our differential gearbox headaches completely. Draft changes now take seconds on the HMI — no gear swaps, no downtime.",
-    author: "Maintenance Head",
-    role: "Ring Spinning Mill, Tamil Nadu",
+      "Nice engineers with the scope of huge technical knowledge to overcome the customer expectation. Very good team.",
+    author: "Manivannan Ayyasamy",
+    role: "Textile Spinning Auditor, PT. Kahatex, Indonesia",
+  },
+  {
+    quote: "Products are reliable and cost effective compared with OEM.",
+    author: "Thirumurugan SV",
+    role: "PT. Gokak Indonesia",
+  },
+  {
+    quote: "Very good service and they have very good technical knowledge.",
+    author: "Gole Vinay",
+    role: "CKL Spinning Mills, Bangladesh",
+  },
+  {
+    quote: "Excellent service.",
+    author: "Ramar",
+    role: "Shri Govindaraja Mills Private Limited, India",
   },
   {
     quote:
-      "OEM-level quality at a fraction of the lead time. Their measuring units and PCBs simply work, and delivery is faster than the original suppliers.",
-    author: "Technical Director",
-    role: "Composite Spinning Group, Gujarat",
-  },
-  {
-    quote:
-      "The draw frame audit and auto-leveler calibration lifted our sliver consistency measurably. A genuine engineering partner, not just a parts vendor.",
-    author: "General Manager",
-    role: "Yarn Manufacturer, USA",
+      "Some of the best spare parts providers for the spinning mills. Professional attention and always available. Highly recommended — keep up the good work.",
+    author: "Israel Gonzalez",
+    role: "Kaltex S.A. De C.V., Mexico",
   },
 ];
 
 /* x/y are percentages projected onto /world-dots.svg (same projection). */
 export const offices = [
-  { city: "Coimbatore", country: "India", role: "Headquarters", flag: "🇮🇳", x: 67.7, y: 49.2 },
-  { city: "Wyoming", country: "USA", role: "Nachi Tekneka USA LLC", flag: "🇺🇸", x: 19.7, y: 33.1 },
-  { city: "Mexico City", country: "Mexico", role: "Indmex Technology SA DE DV", flag: "🇲🇽", x: 21.2, y: 44.7 },
+  {
+    city: "Coimbatore",
+    country: "India",
+    role: "Headquarters",
+    flag: "🇮🇳",
+    x: 67.7,
+    y: 49.2,
+    address: [
+      "129A, Thotta Salai East, Power House Road,",
+      "Perur Village, Coimbatore – 641 010,",
+      "Tamil Nadu, INDIA",
+    ],
+  },
+  {
+    city: "Wyoming",
+    country: "USA",
+    role: "Nachi Tekneka USA LLC",
+    flag: "🇺🇸",
+    x: 19.7,
+    y: 33.1,
+    address: ["30 N Gould St STE R,", "Sheridan 82801 WY, USA"],
+  },
+  {
+    city: "Mexico City",
+    country: "Mexico",
+    role: "Indmex Technology S.A DE C.V.",
+    flag: "🇲🇽",
+    x: 21.2,
+    y: 44.7,
+    address: [
+      "Astros 4, Valle De La Hacienda,",
+      "Cuautitlan Izcalli, Edo. De Mex,",
+      "CP 54715",
+    ],
+  },
 ];
 
 /* Inverter Upgrade conversion matrix — brochure p.04 */

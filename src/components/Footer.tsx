@@ -74,6 +74,9 @@ export function Footer() {
             <a href={`mailto:${company.email}`} className="hover:text-brand">
               {company.email}
             </a>
+            <Link href="/site-map" className="hover:text-brand">
+              Site Map
+            </Link>
           </div>
         </div>
       </div>
