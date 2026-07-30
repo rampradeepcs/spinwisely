@@ -106,28 +106,33 @@ export function WordReveal({
 }) {
   const reduced = useReducedMotion();
   const words = text.split(" ");
+  // No overflow-hidden mask per word — WebKit smears clipped glyphs while
+  // transforms animate inside the clip. A rise + blur stagger needs no mask.
   return (
     <span className={className} aria-label={text}>
       {words.map((word, i) => (
-        <span key={i} className="inline-block overflow-hidden pb-[0.12em] -mb-[0.12em] align-bottom">
-          <motion.span
-            className={cx(
-              "inline-block will-change-transform",
-              accentWords.includes(word.replace(/[.,]/g, "")) ? accentClass : wordClass,
-            )}
-            initial={reduced ? { y: 0 } : { y: "110%" }}
-            whileInView={{ y: 0 }}
-            viewport={{ once: true }}
-            transition={{
-              duration: 0.8,
-              delay: delay + i * 0.07,
-              ease: [0.16, 1, 0.3, 1],
-            }}
-          >
-            {word}
-            {i < words.length - 1 ? " " : ""}
-          </motion.span>
-        </span>
+        <motion.span
+          key={i}
+          className={cx(
+            "inline-block will-change-transform",
+            accentWords.includes(word.replace(/[.,]/g, "")) ? accentClass : wordClass,
+          )}
+          initial={
+            reduced
+              ? { opacity: 1 }
+              : { opacity: 0, y: "0.55em", filter: "blur(8px)" }
+          }
+          whileInView={{ opacity: 1, y: "0em", filter: "blur(0px)" }}
+          viewport={{ once: true }}
+          transition={{
+            duration: 0.7,
+            delay: delay + i * 0.07,
+            ease: [0.16, 1, 0.3, 1],
+          }}
+        >
+          {word}
+          {i < words.length - 1 ? "\u00A0" : ""}
+        </motion.span>
       ))}
     </span>
   );
