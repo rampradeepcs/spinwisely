@@ -7,10 +7,20 @@ import { Counter, Reveal, SectionHeading } from "./primitives";
 
 /* Plant pins — % positions on the dot-matrix world map */
 const PLANTS = [
-  { name: "Coimbatore · Plant A", x: 67.5, y: 57, tests: 212, delay: 0 },
-  { name: "Indore · Plant B", x: 66.5, y: 48, tests: 187, delay: 0.9 },
-  { name: "Monterrey · Plant C", x: 17, y: 48, tests: 164, delay: 1.8 },
-  { name: "Izmir · Plant D", x: 53.5, y: 38, tests: 141, delay: 2.7 },
+  { name: "Coimbatore · Plant A", x: 67, y: 55, tests: 212, delay: 0 },
+  { name: "Indore · Plant B", x: 66, y: 46, tests: 187, delay: 0.9 },
+  { name: "Monterrey · Plant C", x: 16.5, y: 43, tests: 164, delay: 1.8 },
+  { name: "Izmir · Plant D", x: 53.5, y: 37, tests: 141, delay: 2.7 },
+];
+
+/* Dashed arc from plant a to plant b in the same %-coordinate space as the pins */
+const arc = (a: (typeof PLANTS)[number], b: (typeof PLANTS)[number], lift: number) =>
+  `M${a.x} ${a.y} Q ${(a.x + b.x) / 2} ${(a.y + b.y) / 2 - lift}, ${b.x} ${b.y}`;
+
+const STREAMS = [
+  arc(PLANTS[2], PLANTS[0], 24),
+  arc(PLANTS[3], PLANTS[1], 9),
+  arc(PLANTS[1], PLANTS[0], 3),
 ];
 
 const BULLETS = [
@@ -60,16 +70,12 @@ export function Enterprise() {
 
               {/* Data streams between plants */}
               <svg
-                viewBox="0 0 100 66"
+                viewBox="0 0 100 100"
                 preserveAspectRatio="none"
                 className="absolute inset-0 h-full w-full text-purple"
                 aria-hidden
               >
-                {[
-                  "M17 48 C 35 18, 55 22, 67.5 57",
-                  "M53.5 38 C 58 30, 63 36, 66.5 48",
-                  "M66.5 48 C 67 51, 67 53, 67.5 57",
-                ].map((d, i) => (
+                {STREAMS.map((d, i) => (
                   <path
                     key={i}
                     d={d}
