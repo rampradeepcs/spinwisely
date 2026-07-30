@@ -1,18 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Space_Grotesk, Inter } from "next/font/google";
+import { Inter_Tight, Inter } from "next/font/google";
 import "./globals.css";
 import { SmoothScroll } from "@/components/SmoothScroll";
-import { NoRightClick } from "@/components/NoRightClick";
-import { WhatsAppFloat } from "@/components/WhatsAppFloat";
-import { ComingSoon } from "@/components/ComingSoon";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
-import { Splash } from "@/components/Splash";
+import { CursorGlow } from "@/components/spinq/CursorGlow";
 
-const display = Space_Grotesk({
+const display = Inter_Tight({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: ["500", "600", "700", "800"],
   display: "swap",
 });
 
@@ -22,66 +17,75 @@ const sans = Inter({
   display: "swap",
 });
 
-const SITE = "https://www.nachitekneka.com";
+const SITE = "https://www.spinwisely.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
   title: {
-    default: "Nachi Tekneka — A Solution Provider for the Spinning Industry",
-    template: "%s · Nachi Tekneka",
+    default: "Spinwisely — Quality Intelligence, Powered by AI",
+    template: "%s · Spinwisely",
   },
   description:
-    "Nachi Tekneka delivers OEM-level spare parts, Nachi SpinLyfeX™ retrofit systems and onsite technical services for the spinning industry — from blowroom to ring frame. ISO 9001:2015 certified.",
+    "Spin-Q Quality Hub connects every testing instrument, automates quality analysis, detects deviations instantly and gives every spinning mill real-time quality intelligence.",
   keywords: [
-    "spinning industry spare parts",
-    "Nachi Tekneka",
-    "SpinLyfeX retrofit",
-    "servo upgrade RSB",
-    "carding auto leveler",
-    "draw frame parts",
-    "comber parts",
-    "ring frame spares",
-    "textile machinery retrofit",
-    "Rieter spare parts",
+    "Spinwisely",
+    "Spin-Q Quality Hub",
+    "quality intelligence platform",
+    "spinning mill quality control",
+    "textile quality analytics",
+    "SPC analytics",
+    "evenness tester integration",
+    "cross-plant analytics",
+    "process capability Cpk",
+    "quality management software",
   ],
-  authors: [{ name: "Nachi Tekneka" }],
+  authors: [{ name: "Spinwisely LLC" }],
   openGraph: {
     type: "website",
     url: SITE,
-    title: "Nachi Tekneka — A Solution Provider for the Spinning Industry",
+    title: "Spinwisely — Quality Intelligence, Powered by AI",
     description:
-      "OEM-level spare parts, SpinLyfeX™ retrofits and onsite technical services for spinning mills worldwide. ISO 9001:2015 certified.",
-    siteName: "Nachi Tekneka",
+      "Collect. Analyse. Notify. Act. Spin-Q Quality Hub turns every testing instrument into real-time quality intelligence for spinning mills.",
+    siteName: "Spinwisely",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Nachi Tekneka — Spinning Industry Solutions",
+    title: "Spinwisely — Quality Intelligence, Powered by AI",
     description:
-      "OEM-level spare parts, SpinLyfeX™ retrofits and onsite technical services for spinning mills worldwide.",
+      "Spin-Q Quality Hub — real-time quality intelligence for spinning mills.",
   },
   robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#ffffff",
+  themeColor: "#fbfbfd",
   colorScheme: "light",
 };
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "Nachi Tekneka",
-  url: SITE,
-  slogan: "A Solution Provider for the Spinning Industry",
-  email: "info@nachitekneka.com",
-  telephone: "+91 422 267 0091",
-  foundingLocation: "Coimbatore, India",
-  areaServed: ["India", "United States", "Mexico", "Worldwide"],
-  hasCredential: "ISO 9001:2015",
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Coimbatore",
-    addressCountry: "IN",
+  "@type": "SoftwareApplication",
+  name: "Spin-Q Quality Hub",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web, iOS, Android",
+  description:
+    "AI-powered quality intelligence platform for spinning mills: instrument integration, SPC analytics, real-time alerts and cross-plant visibility.",
+  author: {
+    "@type": "Organization",
+    name: "Spinwisely LLC",
+    url: SITE,
+    email: "info@spinwisely.com",
+  },
+  provider: {
+    "@type": "Organization",
+    name: "Nachi Tekneka",
+    email: "info@nachitekneka.com",
+    telephone: "+91 422 267 0091",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Coimbatore",
+      addressCountry: "IN",
+    },
   },
 };
 
@@ -95,20 +99,15 @@ export default function RootLayout({
       className={`${display.variable} ${sans.variable} h-full antialiased`}
     >
       <body className="min-h-full">
-        <ComingSoon />
-        <Splash />
         <SmoothScroll />
-        <NoRightClick />
+        <CursorGlow />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-brand focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
         >
           Skip to content
         </a>
-        <Navbar />
         <div id="main-content">{children}</div>
-        <Footer />
-        <WhatsAppFloat />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

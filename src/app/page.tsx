@@ -1,35 +1,39 @@
-import { Hero } from "@/components/hero/Hero";
-import { Stats } from "@/components/Stats";
-import { SpinLyfeX } from "@/components/SpinLyfeX";
-import { Quality } from "@/components/Quality";
-import { Catalog } from "@/components/Catalog";
-import { ModelCoverage } from "@/components/ModelCoverage";
-import { Solutions } from "@/components/Solutions";
-import { RetrofitMatrix } from "@/components/RetrofitMatrix";
-import { Services } from "@/components/Services";
-import { Company } from "@/components/Company";
-import { Testimonials } from "@/components/Testimonials";
-import { GlobalPresence } from "@/components/GlobalPresence";
-import { Downloads } from "@/components/Downloads";
-import { Contact } from "@/components/Contact";
+import { Nav } from "@/components/spinq/Nav";
+import { Hero } from "@/components/spinq/Hero";
+import { Marquee } from "@/components/spinq/Marquee";
+import { Problem } from "@/components/spinq/Problem";
+import { Pipeline } from "@/components/spinq/Pipeline";
+import { Machines } from "@/components/spinq/Machines";
+import { Enterprise } from "@/components/spinq/Enterprise";
+import { Insights } from "@/components/spinq/Insights";
+import { Resolution } from "@/components/spinq/Resolution";
+import { Outcomes } from "@/components/spinq/Outcomes";
+import { Features } from "@/components/spinq/Features";
+import { Screens } from "@/components/spinq/Screens";
+import { Journey } from "@/components/spinq/Journey";
+import { FinalCTA } from "@/components/spinq/FinalCTA";
+import { Footer } from "@/components/spinq/Footer";
 
 export default function Home() {
   return (
-    <main>
-      <Hero />
-      <Stats />
-      <SpinLyfeX />
-      <Quality />
-      <Catalog />
-      <ModelCoverage />
-      <Solutions />
-      <RetrofitMatrix />
-      <Services />
-      <Company />
-      <Testimonials />
-      <GlobalPresence />
-      <Downloads />
-      <Contact />
-    </main>
+    <>
+      <Nav />
+      <main>
+        <Hero />
+        <Marquee />
+        <Problem />
+        <Pipeline />
+        <Machines />
+        <Enterprise />
+        <Insights />
+        <Resolution />
+        <Outcomes />
+        <Features />
+        <Screens />
+        <Journey />
+        <FinalCTA />
+      </main>
+      <Footer />
+    </>
   );
 }
