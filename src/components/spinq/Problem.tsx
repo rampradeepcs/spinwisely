@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { Counter, Reveal, SectionHeading, SpotlightCard } from "./primitives";
+import { asset } from "@/lib/asset";
 
 const PAINS = [
   {
@@ -104,7 +105,7 @@ export function Problem() {
               </span>
               <div className="relative mt-7 overflow-hidden rounded-xl border border-line2 shadow-2xl">
                 <Image
-                  src="/spinq/dash-process-capability.png"
+                  src={asset("/spinq/dash-process-capability.png")}
                   alt="Spin-Q process capability (Cpk) trend analysis by department"
                   width={840}
                   height={525}

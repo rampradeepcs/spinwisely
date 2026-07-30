@@ -10,7 +10,7 @@ import type { NextConfig } from "next";
  * not do this automatically).
  */
 const isPages = process.env.GITHUB_PAGES === "true";
-const repo = "nachi-tekneka";
+const repo = "spinwisely";
 const basePath = isPages ? `/${repo}` : "";
 
 const nextConfig: NextConfig = {

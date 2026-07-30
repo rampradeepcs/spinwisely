@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Reveal, SectionHeading, cx } from "./primitives";
+import { asset } from "@/lib/asset";
 
 const SLIDES = [
   {
@@ -59,7 +60,7 @@ export function Screens() {
           <Reveal delay={0.2} className="hidden w-[220px] shrink-0 lg:block xl:w-[260px]">
             <div className="animate-float-y overflow-hidden rounded-2xl border border-line bg-surface2 shadow-[0_40px_80px_-30px_rgba(15,18,30,0.35)]">
               <Image
-                src="/spinq/ipad-stand.jpg"
+                src={asset("/spinq/ipad-stand.jpg")}
                 alt="Spin-Q testing performance dashboard on a floor-mounted iPad"
                 width={520}
                 height={390}
@@ -89,7 +90,7 @@ export function Screens() {
                       className="absolute inset-0"
                     >
                       <Image
-                        src={SLIDES[active].src}
+                        src={asset(SLIDES[active].src)}
                         alt={SLIDES[active].alt}
                         fill
                         className="object-cover object-top"
@@ -119,7 +120,7 @@ export function Screens() {
           <Reveal delay={0.3} className="hidden w-[170px] shrink-0 lg:block xl:w-[200px]">
             <div className="animate-float-y [animation-delay:-3s]">
               <Image
-                src="/spinq/phone-alerts.png"
+                src={asset("/spinq/phone-alerts.png")}
                 alt="Spin-Q mobile alert feed in hand"
                 width={400}
                 height={372}

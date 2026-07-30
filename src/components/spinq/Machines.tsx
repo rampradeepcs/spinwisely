@@ -5,6 +5,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { QMark } from "./Nav";
 import { Reveal, SectionHeading, Tilt, cx } from "./primitives";
+import { asset } from "@/lib/asset";
 
 type Machine = {
   name: string;
@@ -116,7 +117,7 @@ function MachineCard({
             aria-hidden
           />
           <Image
-            src={m.img}
+            src={asset(m.img)}
             alt={m.name}
             fill
             className="object-contain p-4 transition-transform duration-700 ease-out group-hover:scale-[1.06]"

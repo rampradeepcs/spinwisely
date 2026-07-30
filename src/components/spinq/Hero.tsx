@@ -13,6 +13,7 @@ import {
 import { ParticleField } from "./ParticleField";
 import { BrowserFrame } from "./BrowserFrame";
 import { Magnetic, Reveal, SectionTag, WordReveal } from "./primitives";
+import { asset } from "@/lib/asset";
 
 export function Hero() {
   const reduced = useReducedMotion();
@@ -155,7 +156,7 @@ export function Hero() {
                 transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
               >
                 <BrowserFrame
-                  src="/spinq/dash-quality-trends.png"
+                  src={asset("/spinq/dash-quality-trends.png")}
                   alt="Spin-Q Quality Hub — historical CVm% quality trend dashboard"
                   priority
                 />
@@ -171,7 +172,7 @@ export function Hero() {
             <Reveal delay={0.9} y={40}>
               <div className="animate-float-y overflow-hidden rounded-xl border border-line2 shadow-[0_40px_90px_-30px_rgba(15,18,30,0.35)]">
                 <Image
-                  src="/spinq/dash-quality-score.png"
+                  src={asset("/spinq/dash-quality-score.png")}
                   alt="Spin-Q Quality Score — 81.8% overall daily QC performance"
                   width={580}
                   height={362}
@@ -190,7 +191,7 @@ export function Hero() {
             <Reveal delay={1.05} y={40}>
               <div className="animate-float-y overflow-hidden rounded-xl border border-line2 shadow-[0_40px_90px_-30px_rgba(15,18,30,0.35)] [animation-delay:-3s]">
                 <Image
-                  src="/spinq/dash-alerts.png"
+                  src={asset("/spinq/dash-alerts.png")}
                   alt="Spin-Q alert management — SLA-tracked quality alerts"
                   width={640}
                   height={330}

@@ -10,6 +10,7 @@ import {
   useTransform,
 } from "motion/react";
 import { Reveal, SectionHeading, cx } from "./primitives";
+import { asset } from "@/lib/asset";
 
 const STEPS = [
   {
@@ -151,7 +152,7 @@ export function Resolution() {
                 className="relative"
               >
                 <Image
-                  src="/spinq/phone-alerts.png"
+                  src={asset("/spinq/phone-alerts.png")}
                   alt="Spin-Q mobile alerts — plant process warnings with acknowledge actions"
                   width={640}
                   height={595}

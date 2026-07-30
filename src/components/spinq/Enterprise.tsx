@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { BrowserFrame } from "./BrowserFrame";
 import { Counter, Reveal, SectionHeading } from "./primitives";
+import { asset } from "@/lib/asset";
 
 /* Plant pins — % positions on the dot-matrix world map */
 const PLANTS = [
@@ -66,7 +67,15 @@ export function Enterprise() {
             />
             <div className="relative mx-auto aspect-[4/2.6] max-w-3xl sm:aspect-[4/2.2]">
               {/* Dot-matrix continents */}
-              <div className="world-mask absolute inset-0 text-slate-400/80" aria-hidden />
+              <div
+                className="world-mask absolute inset-0 text-slate-400/80"
+                style={{
+                  // CSS url()s don't get the deploy base path — set the mask here.
+                  maskImage: `url(${asset("/world-dots.svg")})`,
+                  WebkitMaskImage: `url(${asset("/world-dots.svg")})`,
+                }}
+                aria-hidden
+              />
 
               {/* Data streams between plants */}
               <svg
@@ -169,7 +178,7 @@ export function Enterprise() {
         <div ref={zoomRef} className="mt-14">
           <motion.div style={{ scale, opacity }}>
             <BrowserFrame
-              src="/spinq/dash-channel-trend.png"
+              src={asset("/spinq/dash-channel-trend.png")}
               alt="Spin-Q channel quality trend — weekly channel averages by department"
               url="app.spinwisely.com/corporate"
             />

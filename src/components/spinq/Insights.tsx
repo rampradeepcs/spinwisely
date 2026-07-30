@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { BrowserFrame } from "./BrowserFrame";
 import { Counter, Reveal, SectionHeading, cx } from "./primitives";
+import { asset } from "@/lib/asset";
 
 const VIEWS = [
   {
@@ -120,7 +121,7 @@ export function Insights() {
                   exit={reduced ? { opacity: 0 } : { opacity: 0, scale: 1.01, filter: "blur(6px)" }}
                   transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <BrowserFrame src={view.src} alt={view.alt} url={view.url} />
+                  <BrowserFrame src={asset(view.src)} alt={view.alt} url={view.url} />
                 </motion.div>
               </AnimatePresence>
 
