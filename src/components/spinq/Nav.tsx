@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useScroll, useSpring } from "motion/react";
-import { Magnetic, cx } from "./primitives";
+import { cx } from "./primitives";
 
 const LINKS = [
   { href: "#platform", label: "Platform" },
@@ -56,18 +56,11 @@ export function Wordmark({ compact = false }: { compact?: boolean }) {
   );
 }
 
+/** Floating centered pill nav — icon, links, solid ink CTA. */
 export function Nav() {
-  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 26 });
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     document.documentElement.style.overflow = open ? "hidden" : "";
@@ -77,61 +70,65 @@ export function Nav() {
   }, [open]);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
+    <header className="pointer-events-none fixed inset-x-0 top-0 z-50">
       {/* Scroll progress */}
       <motion.div
         className="absolute inset-x-0 top-0 h-[2px] origin-left bg-gradient-to-r from-brand via-purple to-blue"
         style={{ scaleX: progress }}
       />
-      <div
-        className={cx(
-          "mx-auto mt-3 flex max-w-6xl items-center justify-between rounded-2xl px-4 py-2.5 transition-all duration-500 sm:px-5",
-          scrolled
-            ? "glass-strong mx-3 shadow-[0_18px_50px_-20px_rgba(15,18,30,0.18)] sm:mx-6 lg:mx-auto"
-            : "border border-transparent bg-transparent",
-        )}
-      >
-        <Wordmark compact={scrolled} />
 
-        <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
-          {LINKS.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="rounded-lg px-3.5 py-2 text-[13.5px] font-medium text-muted transition-colors hover:bg-black/5 hover:text-fg"
-            >
-              {l.label}
-            </a>
-          ))}
-        </nav>
+      <div className="flex justify-center px-3">
+        <motion.div
+          initial={{ y: -24, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="glass-strong pointer-events-auto mt-4 flex items-center gap-0.5 rounded-2xl p-1.5 shadow-[0_18px_50px_-20px_rgba(15,18,30,0.3)]"
+        >
+          <a
+            href="#top"
+            aria-label="Spinwisely home"
+            className="group flex items-center gap-2 rounded-xl px-2.5 py-2 transition-colors hover:bg-black/5"
+          >
+            <QMark className="h-6 w-6 transition-transform duration-500 group-hover:rotate-[360deg]" />
+            <span className="hidden font-display text-[12px] font-bold tracking-[0.2em] text-fg min-[420px]:block md:hidden lg:block">
+              SPINWISELY
+            </span>
+          </a>
 
-        <div className="flex items-center gap-2.5">
-          <div className="hidden sm:block">
-            <Magnetic strength={0.25}>
-            <a
-              href="#cta"
-              className="inline-flex items-center gap-2 rounded-xl bg-brand px-4.5 py-2.5 text-[13.5px] font-semibold text-white shadow-[0_0_28px_-6px_rgba(230,54,65,0.35)] transition-all hover:bg-brand-600 hover:shadow-[0_0_38px_-4px_rgba(230,54,65,0.45)]"
-            >
-              Book Demo
-              <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" aria-hidden>
-                <path
-                  d="M3 8h9m0 0L8.5 4.5M12 8l-3.5 3.5"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </a>
-            </Magnetic>
-          </div>
+          <nav className="hidden items-center md:flex" aria-label="Primary">
+            {LINKS.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                className="rounded-xl px-3.5 py-2 text-[13px] font-medium text-muted transition-colors hover:bg-black/5 hover:text-fg"
+              >
+                {l.label}
+              </a>
+            ))}
+          </nav>
+
+          <a
+            href="#cta"
+            className="ml-1.5 hidden items-center gap-2 rounded-xl bg-fg px-4.5 py-2.5 text-[13px] font-semibold text-white transition-all hover:bg-black hover:shadow-[0_10px_28px_-10px_rgba(15,18,30,0.6)] sm:inline-flex"
+          >
+            Book Demo
+            <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" aria-hidden>
+              <path
+                d="M3 8h9m0 0L8.5 4.5M12 8l-3.5 3.5"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </a>
 
           {/* Mobile menu button */}
           <button
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-label={open ? "Close menu" : "Open menu"}
-            className="flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-black/5 md:hidden"
+            className="ml-1 flex h-10 w-10 items-center justify-center rounded-xl border border-line bg-black/5 md:hidden"
           >
             <div className="relative h-3 w-4.5">
               <span
@@ -154,7 +151,7 @@ export function Nav() {
               />
             </div>
           </button>
-        </div>
+        </motion.div>
       </div>
 
       {/* Mobile overlay */}
@@ -165,7 +162,7 @@ export function Nav() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="glass-strong mx-3 mt-2 rounded-2xl p-3 md:hidden"
+            className="glass-strong pointer-events-auto mx-auto mt-2 w-[min(92vw,360px)] rounded-2xl p-3 md:hidden"
           >
             <nav className="flex flex-col" aria-label="Mobile">
               {LINKS.map((l, i) => (
@@ -184,7 +181,7 @@ export function Nav() {
               <a
                 href="#cta"
                 onClick={() => setOpen(false)}
-                className="mt-2 rounded-xl bg-brand px-4 py-3.5 text-center text-[15px] font-semibold text-white"
+                className="mt-2 rounded-xl bg-fg px-4 py-3.5 text-center text-[15px] font-semibold text-white"
               >
                 Book Demo
               </a>

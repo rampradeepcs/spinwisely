@@ -44,6 +44,8 @@ export function Hero() {
   const visualY = useTransform(scrollYProgress, [0, 1], [0, 120]);
   const visualScale = useTransform(scrollYProgress, [0, 1], [1, 0.94]);
   const copyOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  /* The gradient stage starts tilted like a floating plane, then levels out */
+  const panelRX = useTransform(scrollYProgress, [0, 0.45], [12, 0]);
 
   const onPointerMove = (e: React.PointerEvent) => {
     if (reduced || e.pointerType !== "mouse") return;
@@ -135,34 +137,36 @@ export function Hero() {
         </Reveal>
       </motion.div>
 
-      {/* Floating product visual */}
+      {/* Floating product visual — tilted gradient stage */}
       <motion.div
         style={{ y: visualY, scale: visualScale }}
-        className="relative z-10 mt-16 w-full max-w-6xl px-4 pb-10 sm:mt-20 sm:px-8"
+        className="relative z-10 mt-16 w-full max-w-6xl px-4 pb-14 [perspective:1800px] sm:mt-20 sm:px-8"
       >
-        <div className="relative mx-auto max-w-4xl [perspective:1600px]">
-          {/* Glow bed under the dashboard */}
-          <div
-            className="absolute -inset-x-8 top-8 bottom-0 rounded-[40px] bg-gradient-to-tr from-brand/8 via-purple/8 to-blue/8 blur-3xl"
-            aria-hidden
-          />
+        <Reveal delay={0.45} y={70} blur={false}>
+          <motion.div
+            style={{
+              x: main_x,
+              rotateY: main_rY,
+              rotateX: reduced ? 0 : panelRX,
+              transformStyle: "preserve-3d",
+            }}
+            className="panel-grad relative rounded-[2rem] p-5 shadow-[0_90px_180px_-60px_rgba(44,26,107,0.55)] sm:rounded-[2.75rem] sm:p-10 lg:p-14"
+          >
+            {/* Stage texture — clipped to the rounded panel */}
+            <div
+              className="noise pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]"
+              aria-hidden
+            >
+              <div className="bg-grid-invert absolute inset-0 opacity-60 [mask-image:radial-gradient(90%_80%_at_50%_10%,#000,transparent)]" />
+              <div className="absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-white/15" />
+            </div>
 
-          <Reveal delay={0.45} y={60}>
-            <motion.div style={{ x: main_x, rotateY: main_rY, transformStyle: "preserve-3d" }}>
-              <motion.div
-                initial={reduced ? undefined : { rotateX: 16 }}
-                whileInView={{ rotateX: 5 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <BrowserFrame
-                  src={asset("/spinq/dash-quality-trends.png")}
-                  alt="Spin-Q Quality Hub — historical CVm% quality trend dashboard"
-                  priority
-                />
-              </motion.div>
-            </motion.div>
-          </Reveal>
+            <div className="relative mx-auto max-w-4xl">
+              <BrowserFrame
+                src={asset("/spinq/dash-quality-trends.png")}
+                alt="Spin-Q Quality Hub — historical CVm% quality trend dashboard"
+                priority
+              />
 
           {/* Floating card — Quality Score (left) */}
           <motion.div
@@ -247,7 +251,9 @@ export function Hero() {
               </div>
             </Reveal>
           </motion.div>
-        </div>
+            </div>
+          </motion.div>
+        </Reveal>
       </motion.div>
 
       {/* Scroll cue */}

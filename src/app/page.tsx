@@ -3,6 +3,7 @@ import { Hero } from "@/components/spinq/Hero";
 import { Marquee } from "@/components/spinq/Marquee";
 import { Problem } from "@/components/spinq/Problem";
 import { Pipeline } from "@/components/spinq/Pipeline";
+import { Statement } from "@/components/spinq/Statement";
 import { Machines } from "@/components/spinq/Machines";
 import { Enterprise } from "@/components/spinq/Enterprise";
 import { Insights } from "@/components/spinq/Insights";
@@ -23,6 +24,7 @@ export default function Home() {
         <Marquee />
         <Problem />
         <Pipeline />
+        <Statement />
         <Machines />
         <Enterprise />
         <Insights />

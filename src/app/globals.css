@@ -87,6 +87,13 @@ body {
   background-size: 72px 72px;
 }
 
+/* Grid for dark panels */
+.bg-grid-invert {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
 .bg-grid-fine {
   background-image: linear-gradient(rgba(15, 18, 30, 0.035) 1px, transparent 1px),
     linear-gradient(90deg, rgba(15, 18, 30, 0.035) 1px, transparent 1px);
@@ -148,6 +155,30 @@ body {
   background:
     radial-gradient(40% 44% at 12% 8%, rgba(124, 77, 255, 0.05), transparent 70%),
     radial-gradient(40% 44% at 90% 90%, rgba(59, 111, 240, 0.045), transparent 70%);
+}
+
+/* Inverted headline gradient — for type on dark panels */
+.text-grad-invert {
+  background: linear-gradient(180deg, #ffffff 35%, #9aa0af 130%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Cinematic panel — deep indigo → electric purple with a red ember */
+.panel-grad {
+  background:
+    radial-gradient(120% 140% at 88% 4%, rgba(230, 54, 65, 0.28), transparent 42%),
+    radial-gradient(90% 90% at 10% 100%, rgba(167, 139, 250, 0.35), transparent 55%),
+    linear-gradient(136deg, #140f2d 0%, #2c1a6b 46%, #6d3df0 100%);
+}
+
+/* Near-black chapter panel */
+.panel-dark {
+  background:
+    radial-gradient(70% 60% at 80% 0%, rgba(124, 77, 255, 0.16), transparent 60%),
+    radial-gradient(60% 50% at 10% 100%, rgba(230, 54, 65, 0.1), transparent 60%),
+    #0a0812;
 }
 
 /* World map (dot matrix) — themable via mask */
