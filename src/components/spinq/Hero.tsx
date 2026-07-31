@@ -82,7 +82,7 @@ export function Hero() {
         </Reveal>
 
         <h1 className="mt-7 font-display text-[13.5vw] font-bold leading-[0.98] tracking-[-0.03em] sm:text-7xl lg:text-[92px]">
-          <span className="text-grad block">
+          <span className="block">
             <WordReveal text="Quality Analysis." delay={0.15} />
           </span>
           <span className="block">

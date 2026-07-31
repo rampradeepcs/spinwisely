@@ -106,23 +106,21 @@ export function WordReveal({
 }) {
   const reduced = useReducedMotion();
   const words = text.split(" ");
-  // No overflow-hidden mask per word — WebKit smears clipped glyphs while
-  // transforms animate inside the clip. A rise + blur stagger needs no mask.
+  // No overflow mask, no filter, no clip-painting parent: WebKit smears
+  // background-clip:text glyphs when clips/filters animate around them.
   return (
     <span className={className} aria-label={text}>
       {words.map((word, i) => (
         <motion.span
           key={i}
           className={cx(
-            "inline-block will-change-transform",
+            "inline-block",
             accentWords.includes(word.replace(/[.,]/g, "")) ? accentClass : wordClass,
           )}
           initial={
-            reduced
-              ? { opacity: 1 }
-              : { opacity: 0, y: "0.55em", filter: "blur(8px)" }
+            reduced ? { opacity: 1 } : { opacity: 0, y: "0.55em" }
           }
-          whileInView={{ opacity: 1, y: "0em", filter: "blur(0px)" }}
+          whileInView={{ opacity: 1, y: "0em" }}
           viewport={{ once: true }}
           transition={{
             duration: 0.7,
@@ -366,7 +364,7 @@ export function SectionHeading({
       <Reveal>
         <SectionTag>{tag}</SectionTag>
       </Reveal>
-      <h2 className="max-w-3xl font-display text-4xl font-semibold leading-[1.05] tracking-tight text-grad sm:text-5xl lg:text-6xl">
+      <h2 className="max-w-3xl font-display text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
         <WordReveal text={title} accentWords={accentWords} delay={0.05} />
       </h2>
       {sub && (

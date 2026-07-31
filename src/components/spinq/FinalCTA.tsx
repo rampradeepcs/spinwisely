@@ -30,7 +30,7 @@ export function FinalCTA() {
           <SectionTag>Get started</SectionTag>
         </Reveal>
         <h2 className="mt-7 font-display text-5xl font-bold leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">
-          <span className="text-grad block">
+          <span className="block">
             <WordReveal text="Ready to modernize" />
           </span>
           <span className="block">
