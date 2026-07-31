@@ -70,7 +70,7 @@ function StepNode({
             ? "border-transparent bg-emerald-500 text-white shadow-[0_10px_24px_-8px_rgba(16,185,129,0.7)]"
             : "border-transparent bg-gradient-to-br from-brand to-purple text-white shadow-[0_10px_24px_-8px_rgba(124,77,255,0.7)]"
           : done
-            ? "border-emerald-500/35 bg-emerald-500/10 text-emerald-600"
+            ? "border-emerald-500/35 bg-[#e7f6ee] text-emerald-600"
             : "border-line bg-surface text-faint",
       )}
     >
@@ -205,9 +205,9 @@ export function Resolution() {
                       : { opacity: 0, y: 14, scale: 0.92 }
                   }
                   transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                  className="glass-strong absolute -top-3 left-1/2 flex w-[86%] max-w-[320px] -translate-x-1/2 items-center gap-3 rounded-2xl p-3.5"
+                  className="absolute -top-4 left-1/2 flex w-[90%] max-w-[340px] -translate-x-1/2 items-center gap-3 rounded-2xl border border-line bg-white p-3.5 shadow-[0_22px_55px_-20px_rgba(15,18,30,0.35)]"
                 >
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand/15 text-brand-glow">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#fdeaec] text-brand">
                     <svg viewBox="0 0 16 16" className="h-4.5 w-4.5" fill="none" aria-hidden>
                       <path d="M8 2a4 4 0 0 0-4 4v2.5L2.5 11h11L12 8.5V6a4 4 0 0 0-4-4ZM6.5 13a1.5 1.5 0 0 0 3 0" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
@@ -224,8 +224,8 @@ export function Resolution() {
                     className={cx(
                       "ml-auto shrink-0 rounded-md px-2 py-1 text-[9.5px] font-bold uppercase tracking-wide",
                       active >= 4
-                        ? "bg-emerald-500/12 text-emerald-600"
-                        : "bg-brand/15 text-brand-glow",
+                        ? "bg-[#e7f6ee] text-emerald-600"
+                        : "bg-[#fdeaec] text-brand",
                     )}
                   >
                     {active >= 4 ? "Resolved" : "Open"}
@@ -234,8 +234,8 @@ export function Resolution() {
               </div>
 
               {/* SLA board */}
-              <Reveal delay={0.15} className="relative -mt-6">
-                <div className="glass-strong rounded-2xl p-5">
+              <Reveal delay={0.15} className="relative mt-5">
+                <div className="rounded-2xl border border-line bg-white p-5 shadow-[0_24px_60px_-30px_rgba(15,18,30,0.3)]">
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-faint">
                       The SLA board
