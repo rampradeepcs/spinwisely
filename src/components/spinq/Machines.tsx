@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { QMark } from "./Nav";
 import { Reveal, SectionHeading, Tilt, cx } from "./primitives";
 import { asset } from "@/lib/asset";
@@ -68,24 +68,111 @@ const BOTTOM: Machine[] = [
   },
 ];
 
-function Connector({ flip = false }: { flip?: boolean }) {
+/**
+ * Curved spokes from every machine card to the central hub medallion.
+ * Anchors are measured from static wrappers (unaffected by entrance
+ * transforms) and recomputed when the diagram resizes, e.g. when a
+ * card expands.
+ */
+function ConnectorLayer({
+  diagramRef,
+  cardRefs,
+  hubRef,
+}: {
+  diagramRef: React.RefObject<HTMLDivElement | null>;
+  cardRefs: React.RefObject<(HTMLDivElement | null)[]>;
+  hubRef: React.RefObject<HTMLDivElement | null>;
+}) {
+  const reduced = useReducedMotion();
+  const [paths, setPaths] = useState<string[]>([]);
+
+  useEffect(() => {
+    const root = diagramRef.current;
+    if (!root) return;
+
+    const compute = () => {
+      const hub = hubRef.current;
+      if (!hub) return;
+      const c = root.getBoundingClientRect();
+      const h = hub.getBoundingClientRect();
+      if (h.width === 0) {
+        setPaths([]);
+        return;
+      }
+      const hx = h.left + h.width / 2 - c.left;
+      const hy = h.top + h.height / 2 - c.top;
+      const r = h.width / 2 + 8;
+      const next: string[] = [];
+      for (const card of cardRefs.current ?? []) {
+        if (!card) continue;
+        const b = card.getBoundingClientRect();
+        const isTop = b.top + b.height / 2 - c.top < hy;
+        const x = b.left + b.width / 2 - c.left;
+        const y = (isTop ? b.bottom : b.top) - c.top;
+        const dx = x - hx;
+        const dy = y - hy;
+        const len = Math.hypot(dx, dy) || 1;
+        const ex = hx + (dx / len) * r;
+        const ey = hy + (dy / len) * r;
+        const my = (y + ey) / 2;
+        next.push(`M ${x} ${y} C ${x} ${my}, ${ex} ${my}, ${ex} ${ey}`);
+      }
+      setPaths(next);
+    };
+
+    const raf = requestAnimationFrame(compute);
+    // Late recompute — dev CSS can apply after mount, leaving the hub 0-wide
+    // on the first pass.
+    const settle = setTimeout(compute, 600);
+    const ro = new ResizeObserver(() => compute());
+    ro.observe(root);
+    if (hubRef.current) ro.observe(hubRef.current);
+    window.addEventListener("resize", compute);
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(settle);
+      ro.disconnect();
+      window.removeEventListener("resize", compute);
+    };
+  }, [diagramRef, cardRefs, hubRef]);
+
   return (
     <svg
-      viewBox="0 0 2 40"
-      className={cx("mx-auto h-10 w-[2px] text-brand/70", flip && "rotate-180")}
+      className="pointer-events-none absolute inset-0 z-0 hidden h-full w-full lg:block"
       aria-hidden
     >
-      <line
-        x1="1"
-        y1="0"
-        x2="1"
-        y2="40"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeDasharray="3 6"
-        strokeLinecap="round"
-        className="animate-dash"
-      />
+      <defs>
+        <linearGradient id="hub-line" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#e63641" />
+          <stop offset="0.55" stopColor="#7c4dff" />
+          <stop offset="1" stopColor="#3b6ff0" />
+        </linearGradient>
+      </defs>
+      {paths.map((d, i) => (
+        <g key={i}>
+          <path
+            d={d}
+            fill="none"
+            stroke="url(#hub-line)"
+            strokeWidth="1.5"
+            strokeDasharray="4 7"
+            strokeLinecap="round"
+            className="animate-dash"
+            style={{ animationDelay: `${-i * 0.35}s` }}
+            opacity="0.55"
+          />
+          {!reduced && (
+            <circle r="3" fill="#e63641" opacity="0.85">
+              <animateMotion
+                dur={`${3 + (i % 4) * 0.7}s`}
+                begin={`${i * 0.45}s`}
+                repeatCount="indefinite"
+                path={d}
+              />
+            </circle>
+          )}
+        </g>
+      ))}
     </svg>
   );
 }
@@ -174,6 +261,10 @@ export function Machines() {
   const [open, setOpen] = useState<string | null>(null);
   const toggle = (name: string) => setOpen((v) => (v === name ? null : name));
 
+  const diagramRef = useRef<HTMLDivElement>(null);
+  const hubRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
   return (
     <section id="platform" className="relative overflow-hidden py-28 sm:py-36">
       <div className="mesh-soft absolute inset-0" aria-hidden />
@@ -185,43 +276,42 @@ export function Machines() {
           sub="Spin-Q integrates lab equipment from all leading brands — every tester becomes a live signal. Tap a card to see what it streams."
         />
 
-        <div className="mt-16">
+        <div ref={diagramRef} className="relative mt-16">
+          <ConnectorLayer diagramRef={diagramRef} cardRefs={cardRefs} hubRef={hubRef} />
+
           {/* Top row */}
-          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-5">
+          <div className="relative z-10 grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-5">
             {TOP.map((m, i) => (
-              <Reveal key={m.name} delay={i * 0.07} className="h-full">
-                <MachineCard m={m} open={open === m.name} onToggle={() => toggle(m.name)} />
-              </Reveal>
+              <div
+                key={m.name}
+                ref={(el) => {
+                  cardRefs.current[i] = el;
+                }}
+                className="h-full"
+              >
+                <Reveal delay={i * 0.07} className="h-full">
+                  <MachineCard m={m} open={open === m.name} onToggle={() => toggle(m.name)} />
+                </Reveal>
+              </div>
             ))}
           </div>
 
-          {/* Connectors + hub */}
-          <div className="hidden lg:block">
-            <div className="grid grid-cols-4">
-              {TOP.map((m) => (
-                <Connector key={m.name} />
-              ))}
-            </div>
-            <Reveal y={14}>
-              <div className="glass relative mx-auto flex max-w-xl items-center justify-center gap-3 overflow-hidden rounded-2xl px-8 py-4">
-                <span
-                  className="absolute inset-0 bg-gradient-to-r from-brand/10 via-purple/10 to-blue/10"
-                  aria-hidden
-                />
-                <QMark className="h-6 w-6" />
-                <span className="font-display text-[15px] font-bold tracking-[0.18em] text-fg">
-                  SPIN-Q QUALITY HUB
+          {/* Central hub medallion */}
+          <div className="relative z-10 my-12 hidden justify-center lg:flex">
+            <div
+              ref={hubRef}
+              className="h-36 w-36 rounded-full bg-[conic-gradient(from_140deg,#e63641,#7c4dff,#3b6ff0,#e63641)] p-[2.5px] shadow-[0_28px_70px_-28px_rgba(124,77,255,0.55)]"
+            >
+              <div className="flex h-full w-full flex-col items-center justify-center gap-1.5 rounded-full bg-white">
+                <QMark className="h-9 w-9" />
+                <span className="font-display text-[11px] font-bold tracking-[0.2em] text-fg">
+                  SPIN-Q
                 </span>
-                <span className="relative ml-1 flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-emerald-600">
-                  <span className="h-1.5 w-1.5 animate-pulse-soft rounded-full bg-emerald-500" />
-                  Live
+                <span className="flex items-center gap-1.5 text-[8.5px] font-semibold uppercase tracking-[0.16em] text-emerald-600">
+                  <span className="h-1 w-1 animate-pulse-soft rounded-full bg-emerald-500" />
+                  Hub · Live
                 </span>
               </div>
-            </Reveal>
-            <div className="grid grid-cols-4">
-              {BOTTOM.map((m) => (
-                <Connector key={m.name} flip />
-              ))}
             </div>
           </div>
 
@@ -234,11 +324,19 @@ export function Machines() {
           </div>
 
           {/* Bottom row */}
-          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-5">
+          <div className="relative z-10 grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-5">
             {BOTTOM.map((m, i) => (
-              <Reveal key={m.name} delay={i * 0.07} className="h-full">
-                <MachineCard m={m} open={open === m.name} onToggle={() => toggle(m.name)} />
-              </Reveal>
+              <div
+                key={m.name}
+                ref={(el) => {
+                  cardRefs.current[TOP.length + i] = el;
+                }}
+                className="h-full"
+              >
+                <Reveal delay={i * 0.07} className="h-full">
+                  <MachineCard m={m} open={open === m.name} onToggle={() => toggle(m.name)} />
+                </Reveal>
+              </div>
             ))}
           </div>
         </div>
