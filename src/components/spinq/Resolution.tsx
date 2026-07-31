@@ -5,7 +5,6 @@ import { useRef, useState } from "react";
 import {
   motion,
   useMotionValueEvent,
-  useReducedMotion,
   useScroll,
   useTransform,
 } from "motion/react";
@@ -46,8 +45,41 @@ const SLA_BOARD = [
   { title: "Moisture drift · Lab", plant: "Plant Surat-D · #4810", left: "3h 41m", p: "P4", urgent: false },
 ];
 
+function StepNode({
+  index,
+  done,
+  current,
+  last,
+}: {
+  index: number;
+  done: boolean;
+  current: boolean;
+  last: boolean;
+}) {
+  const check = (
+    <svg viewBox="0 0 12 12" className="h-3.5 w-3.5" fill="none" aria-hidden>
+      <path d="M2 6.5 5 9.5 10 3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+  return (
+    <span
+      className={cx(
+        "relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border text-[12px] font-bold transition-all duration-500",
+        current
+          ? last
+            ? "border-transparent bg-emerald-500 text-white shadow-[0_10px_24px_-8px_rgba(16,185,129,0.7)]"
+            : "border-transparent bg-gradient-to-br from-brand to-purple text-white shadow-[0_10px_24px_-8px_rgba(124,77,255,0.7)]"
+          : done
+            ? "border-emerald-500/35 bg-emerald-500/10 text-emerald-600"
+            : "border-line bg-surface text-faint",
+      )}
+    >
+      {done && !current ? check : last ? check : index + 1}
+    </span>
+  );
+}
+
 export function Resolution() {
-  const reduced = useReducedMotion();
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
 
@@ -60,8 +92,7 @@ export function Resolution() {
     setActive(Math.min(STEPS.length - 1, Math.floor(v * STEPS.length)));
   });
 
-  const phoneRotate = useTransform(scrollYProgress, [0, 1], [-7, 5]);
-  const phoneY = useTransform(scrollYProgress, [0, 1], [30, -30]);
+  const railScale = useTransform(scrollYProgress, [0, 1], [0.08, 1]);
 
   return (
     <section className="relative overflow-hidden py-28 sm:py-36">
@@ -76,58 +107,55 @@ export function Resolution() {
         <div ref={trackRef} className="mt-16 grid items-start gap-12 lg:grid-cols-2">
           {/* Workflow rail */}
           <div className="relative">
-            <div className="absolute bottom-5 left-[21px] top-5 w-px bg-line" aria-hidden />
+            <div className="absolute bottom-8 left-[33px] top-8 w-px bg-line" aria-hidden />
             <motion.div
-              className="absolute left-[21px] top-5 w-px origin-top bg-gradient-to-b from-brand via-purple to-emerald-400"
-              style={{
-                height: "calc(100% - 40px)",
-                scaleY: useTransform(scrollYProgress, [0, 1], [0.08, 1]),
-              }}
+              className="absolute left-[33px] top-8 w-px origin-top bg-gradient-to-b from-brand via-purple to-emerald-400"
+              style={{ height: "calc(100% - 64px)", scaleY: railScale }}
               aria-hidden
             />
-            <ol className="space-y-2">
+            <ol className="space-y-3">
               {STEPS.map((s, i) => {
-                const isActive = i <= active;
-                const isCurrent = i === active;
+                const done = i <= active;
+                const current = i === active;
+                const last = i === STEPS.length - 1;
                 return (
                   <li key={s.title}>
                     <div
                       className={cx(
-                        "relative flex gap-5 rounded-2xl p-4 transition-all duration-500",
-                        isCurrent && "glass",
+                        "relative flex items-start gap-4 rounded-2xl border p-4 transition-all duration-500",
+                        current
+                          ? "border-line2 bg-surface shadow-[0_24px_60px_-28px_rgba(124,77,255,0.45)]"
+                          : "border-transparent",
                       )}
                     >
-                      <span
-                        className={cx(
-                          "relative z-10 mt-0.5 flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-full border text-[11px] font-bold transition-all duration-500",
-                          isActive
-                            ? i === STEPS.length - 1 && isCurrent
-                              ? "border-emerald-500 bg-emerald-500/12 text-emerald-600 shadow-[0_0_16px_rgba(16,185,129,0.35)]"
-                              : "border-brand bg-brand/15 text-brand-glow shadow-[0_0_16px_rgba(230,54,65,0.28)]"
-                            : "border-line bg-surface text-faint",
-                        )}
-                      >
-                        {i === STEPS.length - 1 ? (
-                          <svg viewBox="0 0 12 12" className="h-3 w-3" fill="none" aria-hidden>
-                            <path d="M2 6.5 5 9.5 10 3" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
-                        ) : (
-                          i + 1
-                        )}
-                      </span>
-                      <div>
-                        <h3
-                          className={cx(
-                            "font-display text-[17px] font-semibold transition-colors duration-500",
-                            isActive ? "text-fg" : "text-faint",
+                      <StepNode index={i} done={done} current={current} last={last} />
+                      <div className="min-w-0 pt-0.5">
+                        <div className="flex items-center gap-2.5">
+                          <h3
+                            className={cx(
+                              "font-display text-[16px] font-semibold transition-colors duration-500",
+                              done ? "text-fg" : "text-faint",
+                            )}
+                          >
+                            {s.title}
+                          </h3>
+                          {current && (
+                            <span
+                              className={cx(
+                                "rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.14em]",
+                                last
+                                  ? "bg-emerald-500/12 text-emerald-600"
+                                  : "bg-brand/10 text-brand",
+                              )}
+                            >
+                              {last ? "Closed" : "In progress"}
+                            </span>
                           )}
-                        >
-                          {s.title}
-                        </h3>
+                        </div>
                         <p
                           className={cx(
                             "mt-1 text-sm leading-relaxed transition-colors duration-500",
-                            isActive ? "text-muted" : "text-faint/70",
+                            done ? "text-muted" : "text-faint/70",
                           )}
                         >
                           {s.body}
@@ -140,25 +168,33 @@ export function Resolution() {
             </ol>
           </div>
 
-          {/* Phone + SLA board */}
+          {/* Phone + SLA board — static while scrolling */}
           <div className="lg:sticky lg:top-28">
             <div className="relative mx-auto max-w-md">
               <div
                 className="absolute inset-8 rounded-full bg-gradient-to-tr from-brand/15 to-purple/15 blur-3xl"
                 aria-hidden
               />
-              <motion.div
-                style={reduced ? undefined : { rotate: phoneRotate, y: phoneY }}
-                className="relative"
-              >
-                <Image
-                  src={asset("/spinq/phone-alerts.png")}
-                  alt="Spin-Q mobile alerts — plant process warnings with acknowledge actions"
-                  width={640}
-                  height={595}
-                  className="w-full drop-shadow-[0_40px_50px_rgba(15,18,30,0.35)]"
-                  sizes="(max-width: 1024px) 100vw, 448px"
-                />
+              <div className="relative">
+                {/* Gradient stage card — the arm exits through the card edge */}
+                <div className="panel-grad noise relative overflow-hidden rounded-[2rem] shadow-[0_60px_120px_-45px_rgba(44,26,107,0.55)]">
+                  <div
+                    className="bg-grid-invert absolute inset-0 opacity-40 [mask-image:radial-gradient(90%_80%_at_50%_20%,#000,transparent)]"
+                    aria-hidden
+                  />
+                  <Image
+                    src={asset("/spinq/phone-alerts.png")}
+                    alt="Spin-Q mobile alerts — plant process warnings with acknowledge actions"
+                    width={640}
+                    height={595}
+                    className="relative mt-6 w-full"
+                    sizes="(max-width: 1024px) 100vw, 448px"
+                  />
+                  <div
+                    className="absolute inset-0 rounded-[inherit] ring-1 ring-inset ring-white/15"
+                    aria-hidden
+                  />
+                </div>
                 {/* Notification pop-in */}
                 <motion.div
                   key={active >= 1 ? "on" : "off"}
@@ -195,7 +231,7 @@ export function Resolution() {
                     {active >= 4 ? "Resolved" : "Open"}
                   </span>
                 </motion.div>
-              </motion.div>
+              </div>
 
               {/* SLA board */}
               <Reveal delay={0.15} className="relative -mt-6">
