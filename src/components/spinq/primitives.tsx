@@ -114,7 +114,10 @@ export function WordReveal({
         <motion.span
           key={i}
           className={cx(
-            "inline-block",
+            // pb extends the background box under descenders (background-clip:
+            // text renders nothing outside it with tight line-heights); the
+            // negative margin cancels the added line height.
+            "-mb-[0.15em] inline-block pb-[0.15em]",
             accentWords.includes(word.replace(/[.,]/g, "")) ? accentClass : wordClass,
           )}
           initial={
