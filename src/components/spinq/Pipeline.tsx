@@ -83,7 +83,7 @@ export function Pipeline() {
                         "relative z-10 flex h-14 w-14 items-center justify-center rounded-2xl border transition-colors",
                         i === 0
                           ? "border-line bg-surface text-faint"
-                          : "glass text-fg",
+                          : "border-line bg-white text-fg shadow-[0_10px_24px_-14px_rgba(15,18,30,0.3)]",
                       )}
                     >
                       {i > 0 && (
@@ -119,7 +119,7 @@ export function Pipeline() {
                       <span
                         className={cx(
                           "relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border",
-                          i === 0 ? "border-line bg-surface text-faint" : "glass text-fg",
+                          i === 0 ? "border-line bg-surface text-faint" : "border-line bg-white text-fg shadow-[0_10px_24px_-14px_rgba(15,18,30,0.3)]",
                         )}
                       >
                         <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>

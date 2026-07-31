@@ -59,8 +59,19 @@ export function Wordmark({ compact = false }: { compact?: boolean }) {
 /** Floating centered pill nav — icon, links, solid ink CTA. */
 export function Nav() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 26 });
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    const raf = requestAnimationFrame(onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
 
   useEffect(() => {
     document.documentElement.style.overflow = open ? "hidden" : "";
@@ -82,7 +93,12 @@ export function Nav() {
           initial={{ y: -24, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="glass-strong pointer-events-auto mt-4 flex items-center gap-0.5 rounded-2xl p-1.5 shadow-[0_18px_50px_-20px_rgba(15,18,30,0.3)]"
+          className={cx(
+            "pointer-events-auto mt-4 flex items-center gap-0.5 rounded-2xl border p-1.5 backdrop-blur-2xl transition-[background-color,border-color,box-shadow] duration-300",
+            scrolled
+              ? "border-line2 bg-white/90 shadow-[0_18px_50px_-18px_rgba(15,18,30,0.35)]"
+              : "border-line bg-white/65 shadow-[0_18px_50px_-20px_rgba(15,18,30,0.22)]",
+          )}
         >
           <a
             href="#top"

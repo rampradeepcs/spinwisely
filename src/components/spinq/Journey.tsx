@@ -75,7 +75,7 @@ export function Journey() {
                       }`}
                     >
                       {/* Node */}
-                      <span className="glass relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl font-display text-sm font-bold text-fg sm:absolute sm:left-1/2 sm:-translate-x-1/2">
+                      <span className="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-line bg-white font-display text-sm font-bold text-fg shadow-[0_10px_24px_-14px_rgba(15,18,30,0.3)] sm:absolute sm:left-1/2 sm:-translate-x-1/2">
                         {String(i + 1).padStart(2, "0")}
                         <span
                           className="absolute inset-0 rounded-2xl bg-gradient-to-br from-brand/10 to-purple/10"
