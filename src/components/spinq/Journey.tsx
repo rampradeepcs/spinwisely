@@ -12,23 +12,23 @@ const STEPS = [
   },
   {
     title: "Connect Instruments",
-    body: "We wire every tester and register into Spin-Q — all leading brands supported.",
-    meta: "Week 1",
+    body: "We wire every tester and register into Spin-Q in a single day — all leading brands supported.",
+    meta: "Day 1",
   },
   {
     title: "Import Existing Data",
-    body: "Your historical registers and spreadsheets come along, parsed automatically.",
-    meta: "Week 1–2",
+    body: "Your historical registers and spreadsheets come along, parsed automatically overnight.",
+    meta: "Day 2",
   },
   {
     title: "AI Learns",
-    body: "Baselines, control limits and alert rules tune themselves to your process.",
-    meta: "Week 2–3",
+    body: "Baselines, control limits and alert rules tune themselves to your process in under 48 hours.",
+    meta: "Day 3–4",
   },
   {
     title: "Go Live",
     body: "Dashboards, mobile alerts and scheduled reports switch on for every team.",
-    meta: "Week 4",
+    meta: "Day 5",
   },
   {
     title: "Continuous Optimization",
@@ -51,9 +51,9 @@ export function Journey() {
       <div className="relative mx-auto max-w-5xl px-5 sm:px-8">
         <SectionHeading
           tag="Customer journey"
-          title="Live in weeks. Not quarters."
-          accentWords={["weeks."]}
-          sub="A proven onboarding path from first demo to a continuously improving mill."
+          title="Live in days. Not quarters."
+          accentWords={["days."]}
+          sub="Just 5 days to go live from start — a proven onboarding path from first demo to a continuously improving mill."
         />
 
         <div ref={ref} className="relative mx-auto mt-16 max-w-3xl">
